@@ -6,12 +6,6 @@
     <content><![CDATA[<h3 id="hello-world"><a href="#hello-world" class="headerlink" title="hello world"></a>hello world</h3>]]></content>
   </entry>
   <entry>
-    <title>标题</title>
-    <url>/2020/05/09/%E6%A0%87%E9%A2%98/</url>
-    <content><![CDATA[<p>这是一篇博文</p>
-]]></content>
-  </entry>
-  <entry>
     <title>django入门</title>
     <url>/2020/05/10/django%E5%85%A5%E9%97%A8/</url>
     <content><![CDATA[<p>django是一个python语言开发的web框架。<br>主要的组件以及特点</p>
@@ -157,5 +151,11 @@ admin.site.register(MyUser, MyUserAdmin)</code></pre><p>```</p>
         <tag>python</tag>
         <tag>django</tag>
       </tags>
+  </entry>
+  <entry>
+    <title>标题</title>
+    <url>/2020/05/09/%E6%A0%87%E9%A2%98/</url>
+    <content><![CDATA[<p>这是一篇博文</p>
+]]></content>
   </entry>
 </search>
