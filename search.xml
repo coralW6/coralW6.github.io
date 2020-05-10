@@ -1,0 +1,161 @@
+<?xml version="1.0" encoding="utf-8"?>
+<search>
+  <entry>
+    <title>Hello World</title>
+    <url>/2020/05/09/hello-world/</url>
+    <content><![CDATA[<h3 id="hello-world"><a href="#hello-world" class="headerlink" title="hello world"></a>hello world</h3>]]></content>
+  </entry>
+  <entry>
+    <title>标题</title>
+    <url>/2020/05/09/%E6%A0%87%E9%A2%98/</url>
+    <content><![CDATA[<p>这是一篇博文</p>
+]]></content>
+  </entry>
+  <entry>
+    <title>django入门</title>
+    <url>/2020/05/10/django%E5%85%A5%E9%97%A8/</url>
+    <content><![CDATA[<p>django是一个python语言开发的web框架。<br>主要的组件以及特点</p>
+<ul>
+<li>强大的数据库功能</li>
+<li>自带后台管理功能</li>
+<li>优雅的网址</li>
+<li>模板系统</li>
+<li>缓存系统</li>
+<li>国际化</li>
+</ul>
+<h3 id="1-搭建项目"><a href="#1-搭建项目" class="headerlink" title="1 搭建项目"></a>1 搭建项目</h3><p>安装python2.7或者python3均可，安装pip（默认都有啦）</p>
+<h4 id="1-1-安装django"><a href="#1-1-安装django" class="headerlink" title="1.1 安装django"></a>1.1 安装django</h4><p>默认安装最新版</p>
+<p><code>(sudo) pip install django</code></p>
+<p>指定版本安装</p>
+<p><code>(sudo) pip install django==1.11.11</code></p>
+<p>安装如果遇到速度太慢或者超时，可以使用国内镜像安装</p>
+<p><code>(sudo) pip install django -i https://pypi.doubanio.com/simple/</code></p>
+<p>安装后就可以下一步搭建项目</p>
+<h4 id="1-2-创建一个django项目"><a href="#1-2-创建一个django项目" class="headerlink" title="1.2 创建一个django项目"></a>1.2 创建一个django项目</h4><h5 id="1-2-1-创建一个项目目录（已有也行）"><a href="#1-2-1-创建一个项目目录（已有也行）" class="headerlink" title="1.2.1 创建一个项目目录（已有也行）"></a>1.2.1 创建一个项目目录（已有也行）</h5><p><code>mkdir django_test</code></p>
+<h5 id="1-2-2-进入该目录"><a href="#1-2-2-进入该目录" class="headerlink" title="1.2.2 进入该目录"></a>1.2.2 进入该目录</h5><p><code>cd django_test</code></p>
+<h5 id="1-2-3-执行该命令创建一个django项目"><a href="#1-2-3-执行该命令创建一个django项目" class="headerlink" title="1.2.3 执行该命令创建一个django项目"></a>1.2.3 执行该命令创建一个django项目</h5><p><code>django-admin.py startproject family</code></p>
+<h5 id="1-2-4-进入family目录后执行"><a href="#1-2-4-进入family目录后执行" class="headerlink" title="1.2.4 进入family目录后执行"></a>1.2.4 进入family目录后执行</h5><p><code>python manage.py runserver</code> 或者指定端口 <code>python manage.py runserver 8081</code></p>
+<p>在浏览器输入 <a href="http://127.0.0.1:8000/" target="_blank" rel="noopener">http://127.0.0.1:8000/</a> 就可以打开看到 It worked! 字样，表示django项目创建成功</p>
+<h4 id="1-3-创建一个django工程"><a href="#1-3-创建一个django工程" class="headerlink" title="1.3 创建一个django工程"></a>1.3 创建一个django工程</h4><p><code>python manage.py startapp family_app</code></p>
+<p>注意点：工程名中不能有中划线</p>
+<h4 id="1-4-配置我们的工程"><a href="#1-4-配置我们的工程" class="headerlink" title="1.4 配置我们的工程"></a>1.4 配置我们的工程</h4><p>需要在family/settings.py中做一些配置</p>
+<h5 id="1-4-1-INSTALLED-APPS列表中注册我们的工程名"><a href="#1-4-1-INSTALLED-APPS列表中注册我们的工程名" class="headerlink" title="1.4.1 INSTALLED_APPS列表中注册我们的工程名"></a>1.4.1 INSTALLED_APPS列表中注册我们的工程名</h5><h5 id="1-4-2-配置数据库-mysql"><a href="#1-4-2-配置数据库-mysql" class="headerlink" title="1.4.2 配置数据库(mysql)"></a>1.4.2 配置数据库(mysql)</h5><p>默认我们本地都安装了mysql（建议5.6+）<br>在DATABASES字典中注释掉自带的数据库，使用我们自己配置的mysql</p>
+<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line"> &#39;default&#39;: &#123;</span><br><span class="line">    &#39;ENGINE&#39;: &#39;django.db.backends.mysql&#39;,</span><br><span class="line">    &#39;NAME&#39;: &#39;family_app&#39;,</span><br><span class="line">    &#39;USER&#39;: &#39;wanglei&#39;,</span><br><span class="line">    &#39;PASSWORD&#39;: &#39;xxxxxx&#39;,</span><br><span class="line">    &#39;HOST&#39;: &#39;127.0.0.1&#39;,</span><br><span class="line">    &#39;PORT&#39;: &#39;3306&#39;</span><br><span class="line">&#125;,</span><br></pre></td></tr></table></figure>
+
+<p>注意点：如果mysql版本是5.7+，需要在family/<strong>init</strong>.py中加入</p>
+<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">import pymysql</span><br><span class="line">pymysql.install_as_MySQLdb()</span><br></pre></td></tr></table></figure>
+<p>原因是直接使用mysql和mysqlDb的不兼容，不能直接使用mysqlDb模块，需要使用pymysql替代</p>
+<h5 id="1-4-3-数据库中创建一些django自带的表"><a href="#1-4-3-数据库中创建一些django自带的表" class="headerlink" title="1.4.3 数据库中创建一些django自带的表"></a>1.4.3 数据库中创建一些django自带的表</h5><p><code>python manage.py migrate</code></p>
+<p>到此为止，整个项目和工程的基本配置就完成了。</p>
+<h3 id="2-helloWorld起步"><a href="#2-helloWorld起步" class="headerlink" title="2 helloWorld起步"></a>2 helloWorld起步</h3><h4 id="2-1-工程中的文件结构介绍"><a href="#2-1-工程中的文件结构介绍" class="headerlink" title="2.1 工程中的文件结构介绍"></a>2.1 工程中的文件结构介绍</h4><ul>
+<li>migrations：数据迁移模块</li>
+<li>admin.py：后台管理系统</li>
+<li>apps.py：应用的一些配置，1.9以后自动生成</li>
+<li>models.py：数据模块</li>
+<li>tests.py：自动化测试的模块</li>
+<li>views.py：执行响应的代码所在模块，是代码逻辑处理的主要地点，项目中大部分代码在这里编写</li>
+</ul>
+<h4 id="2-2-第一行代码"><a href="#2-2-第一行代码" class="headerlink" title="2.2 第一行代码"></a>2.2 第一行代码</h4><ul>
+<li><p>在family/urls.py中引入我们工程中的views，然后配置路由</p>
+<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">import family_app.views as views</span><br><span class="line">urlpatterns &#x3D; [</span><br><span class="line">    url(r&#39;^admin&#x2F;&#39;, admin.site.urls),</span><br><span class="line">    url(r&#39;^$&#39;, views.index),</span><br><span class="line">]</span><br></pre></td></tr></table></figure>
+</li>
+<li><p>family_app/views.py中写我们要展示在界面的逻辑</p>
+<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">from django.http import HttpResponse, JsonResponse</span><br><span class="line">def index(request):</span><br><span class="line">    ret_str &#x3D; &quot;hello world&quot;</span><br><span class="line">    print ret_str</span><br><span class="line">    return HttpResponse(ret_str)</span><br></pre></td></tr></table></figure>
+</li>
+<li><p>刷新界面，就可以看到hello world了</p>
+</li>
+</ul>
+<h3 id="3-渲染模板"><a href="#3-渲染模板" class="headerlink" title="3 渲染模板"></a>3 渲染模板</h3><h4 id="3-1-模板渲染入门"><a href="#3-1-模板渲染入门" class="headerlink" title="3.1 模板渲染入门"></a>3.1 模板渲染入门</h4><p>将后端返回的结构化数据渲染到模板上</p>
+<ul>
+<li><p>在family_app目录下创建templates目录，管理前端模板</p>
+</li>
+<li><p>在family/settings.py的TEMPLATES中DIRS列表中加入’family_app/templates’</p>
+</li>
+<li><p>在templates目录下创建index.html文件，并写代码</p>
+<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">&lt;!DOCTYPE html&gt;</span><br><span class="line">&lt;html lang&#x3D;&quot;en&quot;&gt;</span><br><span class="line">&lt;head&gt;</span><br><span class="line">    &lt;meta charset&#x3D;&quot;UTF-8&quot;&gt;</span><br><span class="line">    &lt;title&gt;Title&lt;&#x2F;title&gt;</span><br><span class="line">&lt;&#x2F;head&gt;</span><br><span class="line">&lt;body&gt;</span><br><span class="line">    &lt;div&gt;</span><br><span class="line">        &lt;h3&gt;这就是后端返回的数据 &#123;&#123; data &#125;&#125;&lt;&#x2F;h3&gt;</span><br><span class="line">    &lt;&#x2F;div&gt;</span><br><span class="line">&lt;&#x2F;body&gt;</span><br><span class="line">&lt;&#x2F;html&gt;</span><br></pre></td></tr></table></figure>
+</li>
+<li><p>family_app/views.py中修改响应的方式</p>
+<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">return render(request, &#39;index.html&#39;, &#123;&#39;data&#39;: ret_str&#125;)</span><br></pre></td></tr></table></figure>
+<p>一个简单的模板渲染就完成了</p>
+</li>
+</ul>
+<h4 id="3-2-一些基础的渲染方式"><a href="#3-2-一些基础的渲染方式" class="headerlink" title="3.2 一些基础的渲染方式"></a>3.2 一些基础的渲染方式</h4><ul>
+<li>列表渲染</li>
+</ul>
+<p>family_app/views.py</p>
+<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">ret_str &#x3D; [&quot;hello world&quot;, &quot;1024&quot;]</span><br><span class="line">return render(request, &#39;index.html&#39;, &#123;&#39;data&#39;: ret_str&#125;)</span><br></pre></td></tr></table></figure>
+<p>templates/index.html</p>
+<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">&lt;div&gt;</span><br><span class="line">    &#123;% for item in data %&#125;</span><br><span class="line">        &lt;p&gt;&#123;&#123; item &#125;&#125;&lt;&#x2F;p&gt;</span><br><span class="line">    &#123;% endfor %&#125;</span><br><span class="line">&lt;&#x2F;div&gt;</span><br></pre></td></tr></table></figure>
+<ul>
+<li>字典渲染<br>family_app/views.py<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">ret_str &#x3D; &#123;&quot;k1&quot;: &quot;hello&quot;, &quot;k2&quot;: &quot;world&quot;, &quot;k3&quot;: &quot;1024&quot;&#125;</span><br><span class="line">return render(request, &#39;index.html&#39;, &#123;&#39;data&#39;: ret_str&#125;)</span><br></pre></td></tr></table></figure>
+templates/index.html<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">遍历取值</span><br><span class="line">&lt;div&gt;</span><br><span class="line">    &#123;% for key, val in data.items %&#125;</span><br><span class="line">        &lt;p&gt;key:&#123;&#123; key &#125;&#125; val:&#123;&#123; val &#125;&#125;&lt;&#x2F;p&gt;</span><br><span class="line">    &#123;% endfor %&#125;</span><br><span class="line">&lt;&#x2F;div&gt;</span><br><span class="line">按key取值</span><br><span class="line">&lt;div&gt;</span><br><span class="line">    &#123;&#123; data.k3 &#125;&#125;</span><br><span class="line">&lt;&#x2F;div&gt;</span><br></pre></td></tr></table></figure>
+
+</li>
+</ul>
+<p>4 包含静态资源的模板渲染</p>
+<p>在以上的基础上，我们加上js和css的操作</p>
+<ul>
+<li><p>在family_app目录下创建static目录，管理静态资源</p>
+</li>
+<li><p>在family/settings.py中添加</p>
+<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">STATIC_ROOT &#x3D; os.path.join(BASE_DIR, &quot;family_app&#x2F;static&quot;)</span><br></pre></td></tr></table></figure></li>
+<li><p>在family_app/static/index.js，并添加代码</p>
+<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">function click_submit()</span><br><span class="line">&#123;</span><br><span class="line">    alert(&quot;别点了！&quot;);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+</li>
+<li><p>在family_app/static/index.css，并添加代码</p>
+<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">.list-css &#123;</span><br><span class="line">    margin-left:200px;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+</li>
+<li><p>在index.html中添加</p>
+<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">&#123;% load static %&#125;</span><br><span class="line">&lt;link rel&#x3D;&quot;stylesheet&quot; href&#x3D;&quot;&#123;% static &#39;index.css&#39; %&#125;&quot; type&#x3D;&quot;text&#x2F;css&quot;&gt;</span><br><span class="line">&lt;script src&#x3D;&quot;static&#x2F;index.js&quot;&gt;&lt;&#x2F;script&gt;</span><br><span class="line"></span><br><span class="line">&lt;div onclick&#x3D;&quot;click_submit()&quot;&gt;点击按钮&lt;&#x2F;div&gt;</span><br></pre></td></tr></table></figure>
+
+</li>
+</ul>
+<p>以上就是前端静态资源在页面加载过程中的具体配置方式</p>
+<h3 id="4-后端请求数据库"><a href="#4-后端请求数据库" class="headerlink" title="4 后端请求数据库"></a>4 后端请求数据库</h3><p>先不使用django的model，我们自己连接数据库去请求</p>
+<h4 id="4-1-创建数据库表并写几条数据进去"><a href="#4-1-创建数据库表并写几条数据进去" class="headerlink" title="4.1 创建数据库表并写几条数据进去"></a>4.1 创建数据库表并写几条数据进去</h4><figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">create table family_app.user (</span><br><span class="line">  id int(11) NOT NULL AUTO_INCREMENT,</span><br><span class="line">  number bigint(20) NOT NULL COMMENT &#39;用户编号&#39;,</span><br><span class="line">  name varchar(45) DEFAULT NULL COMMENT &#39;用户名&#39;,</span><br><span class="line">  mobile varchar(20) DEFAULT NULL COMMENT &#39;手机号&#39;,</span><br><span class="line">  status tinyint(4) DEFAULT &#39;1&#39; COMMENT &#39;用户状态&#39;,</span><br><span class="line">  create_time timestamp DEFAULT NULL DEFAULT CURRENT_TIMESTAMP COMMENT &#39;创建时间&#39;,</span><br><span class="line">  update_time timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP COMMENT &#39;更新时间&#39;,</span><br><span class="line">  PRIMARY KEY (id),</span><br><span class="line">  UNIQUE KEY uniq_number (number),</span><br><span class="line">  KEY idx_mobile (mobile),</span><br><span class="line">  KEY idx_update_time (update_time)</span><br><span class="line">) ENGINE&#x3D;InnoDB AUTO_INCREMENT&#x3D;0 DEFAULT CHARSET&#x3D;utf8 COMMENT&#x3D;&quot;用户表&quot;;</span><br></pre></td></tr></table></figure>
+<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">insert into family_app.user (number, name, mobile, status) values (1000, &quot;张三&quot;, &quot;13100000000&quot;, 1);</span><br></pre></td></tr></table></figure>
+
+<h4 id="4-2-连接数据库并写sql请求数据"><a href="#4-2-连接数据库并写sql请求数据" class="headerlink" title="4.2 连接数据库并写sql请求数据"></a>4.2 连接数据库并写sql请求数据</h4><figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">from django.db import connection, models</span><br><span class="line">import traceback</span><br><span class="line"></span><br><span class="line">def get_user_info(request):</span><br><span class="line">    number &#x3D; 0</span><br><span class="line">    if &#39;number&#39; in request.GET and request.GET[&#39;number&#39;] !&#x3D; 0:</span><br><span class="line">        number &#x3D; int(request.GET[&#39;number&#39;])</span><br><span class="line"></span><br><span class="line">    user_sql &#x3D; &quot;&quot;&quot;</span><br><span class="line">        select number, name, mobile from family_app.user where status&#x3D;1 and number&#x3D;%s</span><br><span class="line">    &quot;&quot;&quot; % number</span><br><span class="line">    print &quot;user_sql:&quot;, user_sql</span><br><span class="line">    ret &#x3D; execute(user_sql)</span><br><span class="line"></span><br><span class="line">    ret_list &#x3D; []</span><br><span class="line">    for r in ret:</span><br><span class="line">        print r[0], r[1], r[2]</span><br><span class="line">        user_dict &#x3D; &#123;&quot;number&quot;: r[0], &quot;name&quot;: r[1], &quot;mobile&quot;: r[2]&#125;</span><br><span class="line">        ret_list.append(user_dict)</span><br><span class="line">    return render(request, &#39;index.html&#39;, &#123;&#39;data&#39;: ret_list&#125;)</span><br><span class="line"></span><br><span class="line">def execute(sql, params&#x3D;None, auto_close&#x3D;True):</span><br><span class="line">    cur &#x3D; None</span><br><span class="line">    try:</span><br><span class="line">        sql &#x3D; sql.strip()</span><br><span class="line">        cur &#x3D; connection.cursor()</span><br><span class="line">        cur.execute(sql, params)</span><br><span class="line">        result &#x3D; cur.fetchall()</span><br><span class="line">        #print &quot;ret_len:&quot;, len(result)</span><br><span class="line">        return result</span><br><span class="line">    except Exception, e:</span><br><span class="line">        if params:</span><br><span class="line">            print sql % params</span><br><span class="line">        else:</span><br><span class="line">            print sql</span><br><span class="line">        traceback.print_exc()</span><br><span class="line">    finally:</span><br><span class="line">        if cur and auto_close:</span><br><span class="line">            cur.close()</span><br></pre></td></tr></table></figure>
+
+<h4 id="4-3-url配置接口名"><a href="#4-3-url配置接口名" class="headerlink" title="4.3 url配置接口名"></a>4.3 url配置接口名</h4><figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">url(r&#39;^get_user_info&#39;, views.get_user_info)</span><br></pre></td></tr></table></figure>
+
+<h4 id="4-4-index-html中写渲染代码"><a href="#4-4-index-html中写渲染代码" class="headerlink" title="4.4 index.html中写渲染代码"></a>4.4 index.html中写渲染代码</h4><figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">&lt;div&gt;</span><br><span class="line">    &#123;% for item_dict in data %&#125;</span><br><span class="line">        &#123;% for key, val in item_dict.items %&#125;</span><br><span class="line">            &lt;p&gt;key:&#123;&#123; key &#125;&#125; val:&#123;&#123; val &#125;&#125;&lt;&#x2F;p&gt;</span><br><span class="line">        &#123;% endfor %&#125;</span><br><span class="line">    &#123;% endfor %&#125;</span><br><span class="line">&lt;&#x2F;div&gt;</span><br></pre></td></tr></table></figure>
+
+<p>以上开发和配置完成后浏览器访问 <a href="http://127.0.0.1:8000/get_user_info?number=1000" target="_blank" rel="noopener">http://127.0.0.1:8000/get_user_info?number=1000</a> 就可以看到数据库中的数据在页面的渲染</p>
+<h3 id="5-后台管理的简单使用"><a href="#5-后台管理的简单使用" class="headerlink" title="5 后台管理的简单使用"></a>5 后台管理的简单使用</h3><p>终端执行命令创建超级管理员并登陆</p>
+<figure class="highlight python"><figcaption><span>manage.py createsuperuser```</span></figcaption><table><tr><td class="code"><pre><span class="line"></span><br><span class="line">然后在http://<span class="number">127.0</span><span class="number">.0</span><span class="number">.1</span>:<span class="number">8000</span>/admin中登陆进入后台管理界面</span><br><span class="line"></span><br><span class="line">例如需要在后台管理我们创建的family_app.user表，做一些常规的增删改查。</span><br><span class="line"></span><br><span class="line"><span class="comment">#### 5.1 创建一个新的工程</span></span><br><span class="line"></span><br><span class="line">`python manage.py startapp family_user_admin`</span><br><span class="line"></span><br><span class="line"> 并将该工程注册到 family/settings.py的INSTALLED_APPS列表中</span><br><span class="line"></span><br><span class="line"><span class="comment">#### 5.2 开发models模块</span></span><br><span class="line"></span><br><span class="line">将我们的family_app.user表结构中需要我们修改的字段映射到发model中</span><br></pre></td></tr></table></figure>
+<pre><code>check_status = (
+    (0, &apos;不生效&apos;),
+    (1, &apos;生效&apos;),
+)
+
+class MyUser(models.Model):
+    id = models.BigIntegerField(verbose_name=&apos;id&apos;, editable=False, primary_key=True, unique=True)
+    number = models.BigIntegerField(verbose_name=&apos;用户number&apos;, editable=True)
+    name = models.CharField(verbose_name=&apos;用户名&apos;, max_length=1024, blank=True)
+    mobile = models.CharField(verbose_name=&apos;电话&apos;, max_length=1024, blank=True)
+    status = models.IntegerField(verbose_name=&apos;用户状态&apos;, choices=check_status)
+
+    class Meta:
+        db_table = &apos;user&apos;</code></pre><figure class="highlight plain"><table><tr><td class="code"><pre><span class="line"></span><br><span class="line"></span><br><span class="line">#### 5.3 开发admin模块</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">将我们model中的需要展示和修改的字段添加到管理界面中</span><br></pre></td></tr></table></figure>
+<pre><code>from models import MyUser
+class MyUserAdmin(admin.ModelAdmin):
+    list_display = (&apos;number&apos;, &apos;name&apos;, &apos;mobile&apos;, &apos;status&apos;)
+    search_fields = (&apos;number&apos;, &apos;name&apos;, &apos;mobile&apos;)
+
+
+    def has_delete_permission(self, request, obj=None):
+        return False
+
+admin.site.register(MyUser, MyUserAdmin)</code></pre><p>```</p>
+<p>操作完以上步骤后在admin界面中可以看到我们的新增的管理模块MyUsers，点击进去就可以看到配置的信息，可以做增删改查操作</p>
+]]></content>
+      <categories>
+        <category>python</category>
+      </categories>
+      <tags>
+        <tag>python</tag>
+        <tag>django</tag>
+      </tags>
+  </entry>
+</search>
