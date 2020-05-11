@@ -68,7 +68,7 @@
 
 
 
-  <meta name="keywords" content="Hexo, NexT" />
+  <meta name="keywords" content="tensorflow,机器学习,tensor2tensor," />
 
 
 
@@ -81,15 +81,23 @@
 
 
 
-<meta name="description" content="hello world">
-<meta property="og:type" content="website">
-<meta property="og:title" content="入坑随手记">
-<meta property="og:url" content="http://yoursite.com/index.html">
+<meta name="description" content="前言 tensor2tensor（t2t）是google基于tensorflow新开源的深度学习库，该库将深度学习所需要的元素（数据集、模型、学习率、超参数等）封装成标准化的统一接口，在使用其做模型训练时可以更加的灵活。  当前环境 mac 10.13.3 tensorflow 1.6.0 tensor2tensor 1.5.5  安装模块 源码下载：https:&#x2F;&#x2F;github.com&#x2F;tens">
+<meta property="og:type" content="article">
+<meta property="og:title" content="google的tensor2tensor的学习和使用">
+<meta property="og:url" content="http://yoursite.com/2020/05/11/google%E7%9A%84tensor2tensor%E7%9A%84%E5%AD%A6%E4%B9%A0%E5%92%8C%E4%BD%BF%E7%94%A8/index.html">
 <meta property="og:site_name" content="入坑随手记">
-<meta property="og:description" content="hello world">
+<meta property="og:description" content="前言 tensor2tensor（t2t）是google基于tensorflow新开源的深度学习库，该库将深度学习所需要的元素（数据集、模型、学习率、超参数等）封装成标准化的统一接口，在使用其做模型训练时可以更加的灵活。  当前环境 mac 10.13.3 tensorflow 1.6.0 tensor2tensor 1.5.5  安装模块 源码下载：https:&#x2F;&#x2F;github.com&#x2F;tens">
+<meta property="og:image" content="http://img.blog.csdn.net/20180318200525009?watermark/2/text/aHR0cDovL2Jsb2cuY3Nkbi5uZXQvY3NhMTIx/font/5a6L5L2T/fontsize/400/fill/I0JBQkFCMA==/dissolve/70/gravity/SouthEast">
+<meta property="og:image" content="http://img.blog.csdn.net/20180318202301389?watermark/2/text/aHR0cDovL2Jsb2cuY3Nkbi5uZXQvY3NhMTIx/font/5a6L5L2T/fontsize/400/fill/I0JBQkFCMA==/dissolve/70/gravity/SouthEast">
+<meta property="og:image" content="http://img.blog.csdn.net/20180318203105033?watermark/2/text/aHR0cDovL2Jsb2cuY3Nkbi5uZXQvY3NhMTIx/font/5a6L5L2T/fontsize/400/fill/I0JBQkFCMA==/dissolve/70/gravity/SouthEast">
+<meta property="article:published_time" content="2020-05-11T15:25:00.000Z">
+<meta property="article:modified_time" content="2020-05-11T15:33:17.148Z">
 <meta property="article:author" content="coral">
-<meta property="article:tag" content="blog">
+<meta property="article:tag" content="tensorflow">
+<meta property="article:tag" content="机器学习">
+<meta property="article:tag" content="tensor2tensor">
 <meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="http://img.blog.csdn.net/20180318200525009?watermark/2/text/aHR0cDovL2Jsb2cuY3Nkbi5uZXQvY3NhMTIx/font/5a6L5L2T/fontsize/400/fill/I0JBQkFCMA==/dissolve/70/gravity/SouthEast">
 
 
 
@@ -119,13 +127,13 @@
 
 
 
-  <link rel="canonical" href="http://yoursite.com/"/>
+  <link rel="canonical" href="http://yoursite.com/2020/05/11/google的tensor2tensor的学习和使用/"/>
 
 
 
 
 
-  <title>入坑随手记</title>
+  <title>google的tensor2tensor的学习和使用 | 入坑随手记</title>
   
 
 
@@ -144,8 +152,7 @@
     
   
 
-  <div class="container sidebar-position-left 
-  page-home">
+  <div class="container sidebar-position-left page-post-detail">
     <div class="headband"></div>
 
     <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
@@ -282,927 +289,9 @@
         <div class="content-wrap">
           <div id="content" class="content">
             
-  <section id="posts" class="posts-expand">
-    
-      
-
-  
-
-  
-  
-  
-
-  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
-  
-  
-  
-  <div class="post-block">
-    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2020/05/11/Kafka%E7%9A%84%E5%8F%AF%E9%9D%A0%E6%80%A7/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="name" content="coral">
-      <meta itemprop="description" content="">
-      <meta itemprop="image" content="/%5Bobject%20Object%5D">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="入坑随手记">
-    </span>
-
-    
-      <header class="post-header">
-
-        
-        
-          <h1 class="post-title" itemprop="name headline">
-                
-                <a class="post-title-link" href="/2020/05/11/Kafka%E7%9A%84%E5%8F%AF%E9%9D%A0%E6%80%A7/" itemprop="url">Kafka的可靠性</a></h1>
-        
-
-        <div class="post-meta">
-          <span class="post-time">
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-calendar-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">发表于</span>
-              
-              <time title="创建于" itemprop="dateCreated datePublished" datetime="2020-05-11T23:49:00+08:00">
-                2020-05-11
-              </time>
-            
-
-            
-
-            
-          </span>
-
-          
-            <span class="post-category" >
-            
-              <span class="post-meta-divider">|</span>
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-folder-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">分类于</span>
-              
-              
-                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-                  <a href="/categories/kafka/" itemprop="url" rel="index">
-                    <span itemprop="name">kafka</span>
-                  </a>
-                </span>
-
-                
-                
-              
-            </span>
-          
-
-          
-            
-          
-
-          
-          
-
-          
-
-          
-
-          
-
-        </div>
-      </header>
-    
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-
-      
-      
-
-      
-        
-          
-          在使用kafka的时候，我们都知道kafka有很强的可靠性，或者说kafka可以保证消息不丢失。那它是怎么来保证的呢？或者返过来思考，在使用kafka的时候什么情况下会丢失消息呢？
-从应用kafka的三个角度来理解kafka的可靠性保证
-生产者的可靠性在kafka的producer配置时，我们需要配
-          ...
-          <!--noindex-->
-          <div class="post-button text-center">
-            <a class="btn" href="/2020/05/11/Kafka%E7%9A%84%E5%8F%AF%E9%9D%A0%E6%80%A7/#more" rel="contents">
-              阅读全文 &raquo;
-            </a>
-          </div>
-          <!--/noindex-->
-        
-      
-    </div>
-    
-    
-    
-
-    
-
-    
-
-    
-
-    <footer class="post-footer">
-      
-
-      
-
-      
-
-      
-      
-        <div class="post-eof"></div>
-      
-    </footer>
-  </div>
-  
-  
-  
-  </article>
-
-
-    
-      
-
-  
-
-  
-  
-  
-
-  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
-  
-  
-  
-  <div class="post-block">
-    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2020/05/11/scrapy%E5%86%99%E7%88%AC%E8%99%AB%E6%B3%A8%E6%84%8F%E4%BA%8B%E9%A1%B9/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="name" content="coral">
-      <meta itemprop="description" content="">
-      <meta itemprop="image" content="/%5Bobject%20Object%5D">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="入坑随手记">
-    </span>
-
-    
-      <header class="post-header">
-
-        
-        
-          <h1 class="post-title" itemprop="name headline">
-                
-                <a class="post-title-link" href="/2020/05/11/scrapy%E5%86%99%E7%88%AC%E8%99%AB%E6%B3%A8%E6%84%8F%E4%BA%8B%E9%A1%B9/" itemprop="url">scrapy写爬虫注意事项</a></h1>
-        
-
-        <div class="post-meta">
-          <span class="post-time">
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-calendar-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">发表于</span>
-              
-              <time title="创建于" itemprop="dateCreated datePublished" datetime="2020-05-11T23:47:00+08:00">
-                2020-05-11
-              </time>
-            
-
-            
-
-            
-          </span>
-
-          
-            <span class="post-category" >
-            
-              <span class="post-meta-divider">|</span>
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-folder-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">分类于</span>
-              
-              
-                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-                  <a href="/categories/python/" itemprop="url" rel="index">
-                    <span itemprop="name">python</span>
-                  </a>
-                </span>
-
-                
-                
-                  ， 
-                
-              
-                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-                  <a href="/categories/python/%E7%88%AC%E8%99%AB/" itemprop="url" rel="index">
-                    <span itemprop="name">爬虫</span>
-                  </a>
-                </span>
-
-                
-                
-              
-            </span>
-          
-
-          
-            
-          
-
-          
-          
-
-          
-
-          
-
-          
-
-        </div>
-      </header>
-    
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-
-      
-      
-
-      
-        
-          
-          前段时间有个爬虫的需求，爬的什么网站的数据就不说了，简单介绍下在学习scrapy这中间踩的坑吧。
-1、在爬取数据的时候，一定要想办法将爬虫伪装成一个浏览器，可以通过设置cookie和请求头的信息。这个具体的方法很多，随便百度一个关键词“scrapy设置请求头”，就可以出来一大堆答案。裸奔的话频率小点
-          ...
-          <!--noindex-->
-          <div class="post-button text-center">
-            <a class="btn" href="/2020/05/11/scrapy%E5%86%99%E7%88%AC%E8%99%AB%E6%B3%A8%E6%84%8F%E4%BA%8B%E9%A1%B9/#more" rel="contents">
-              阅读全文 &raquo;
-            </a>
-          </div>
-          <!--/noindex-->
-        
-      
-    </div>
-    
-    
-    
-
-    
-
-    
-
-    
-
-    <footer class="post-footer">
-      
-
-      
-
-      
-
-      
-      
-        <div class="post-eof"></div>
-      
-    </footer>
-  </div>
-  
-  
-  
-  </article>
-
-
-    
-      
-
-  
-
-  
-  
-  
-
-  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
-  
-  
-  
-  <div class="post-block">
-    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2020/05/11/python%E6%95%B0%E6%8D%AE%E6%B8%85%E6%B4%97%E6%B5%81%E7%A8%8B%E5%92%8C%E6%B3%A8%E6%84%8F%E7%82%B9/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="name" content="coral">
-      <meta itemprop="description" content="">
-      <meta itemprop="image" content="/%5Bobject%20Object%5D">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="入坑随手记">
-    </span>
-
-    
-      <header class="post-header">
-
-        
-        
-          <h1 class="post-title" itemprop="name headline">
-                
-                <a class="post-title-link" href="/2020/05/11/python%E6%95%B0%E6%8D%AE%E6%B8%85%E6%B4%97%E6%B5%81%E7%A8%8B%E5%92%8C%E6%B3%A8%E6%84%8F%E7%82%B9/" itemprop="url">python数据清洗流程和注意点</a></h1>
-        
-
-        <div class="post-meta">
-          <span class="post-time">
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-calendar-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">发表于</span>
-              
-              <time title="创建于" itemprop="dateCreated datePublished" datetime="2020-05-11T23:46:00+08:00">
-                2020-05-11
-              </time>
-            
-
-            
-
-            
-          </span>
-
-          
-            <span class="post-category" >
-            
-              <span class="post-meta-divider">|</span>
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-folder-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">分类于</span>
-              
-              
-                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-                  <a href="/categories/python/" itemprop="url" rel="index">
-                    <span itemprop="name">python</span>
-                  </a>
-                </span>
-
-                
-                
-              
-            </span>
-          
-
-          
-            
-          
-
-          
-          
-
-          
-
-          
-
-          
-
-        </div>
-      </header>
-    
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-
-      
-      
-
-      
-        
-          
-          最近一直在做数据清洗业务。终于告一段落，简单的总结记录一下最近工作。方便后续查看吧。具体的工作流程就是将数据从hive或者原始日志中清洗、整理后入库。然后供业务方使用和展示。
-
-开发前：
-当你接到一个需求时，先考虑3点：
-
-1、你是否理解每一个字段的含义和每一个字段的存放位置（在原始日志中or现有的
-          ...
-          <!--noindex-->
-          <div class="post-button text-center">
-            <a class="btn" href="/2020/05/11/python%E6%95%B0%E6%8D%AE%E6%B8%85%E6%B4%97%E6%B5%81%E7%A8%8B%E5%92%8C%E6%B3%A8%E6%84%8F%E7%82%B9/#more" rel="contents">
-              阅读全文 &raquo;
-            </a>
-          </div>
-          <!--/noindex-->
-        
-      
-    </div>
-    
-    
-    
-
-    
-
-    
-
-    
-
-    <footer class="post-footer">
-      
-
-      
-
-      
-
-      
-      
-        <div class="post-eof"></div>
-      
-    </footer>
-  </div>
-  
-  
-  
-  </article>
-
-
-    
-      
-
-  
-
-  
-  
-  
-
-  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
-  
-  
-  
-  <div class="post-block">
-    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2020/05/11/flume1-8%E5%9C%A8%E7%BA%BF%E4%B8%8A%E4%B8%9A%E5%8A%A1%E4%B8%AD%E7%9A%84%E4%BD%BF%E7%94%A8%E5%92%8C%E6%80%BB%E7%BB%93/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="name" content="coral">
-      <meta itemprop="description" content="">
-      <meta itemprop="image" content="/%5Bobject%20Object%5D">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="入坑随手记">
-    </span>
-
-    
-      <header class="post-header">
-
-        
-        
-          <h1 class="post-title" itemprop="name headline">
-                
-                <a class="post-title-link" href="/2020/05/11/flume1-8%E5%9C%A8%E7%BA%BF%E4%B8%8A%E4%B8%9A%E5%8A%A1%E4%B8%AD%E7%9A%84%E4%BD%BF%E7%94%A8%E5%92%8C%E6%80%BB%E7%BB%93/" itemprop="url">flume1.8在线上业务中的使用和总结</a></h1>
-        
-
-        <div class="post-meta">
-          <span class="post-time">
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-calendar-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">发表于</span>
-              
-              <time title="创建于" itemprop="dateCreated datePublished" datetime="2020-05-11T23:43:00+08:00">
-                2020-05-11
-              </time>
-            
-
-            
-
-            
-          </span>
-
-          
-            <span class="post-category" >
-            
-              <span class="post-meta-divider">|</span>
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-folder-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">分类于</span>
-              
-              
-                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-                  <a href="/categories/flume/" itemprop="url" rel="index">
-                    <span itemprop="name">flume</span>
-                  </a>
-                </span>
-
-                
-                
-              
-            </span>
-          
-
-          
-            
-          
-
-          
-          
-
-          
-
-          
-
-          
-
-        </div>
-      </header>
-    
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-
-      
-      
-
-      
-        
-          
-          什么是flume？
-flume是一个日志采集、聚合和传输的系统
-
-
-
-作用是什么？
-作用就是将业务集群上各个机器上的日志收集起来，对数据做集中处理。
-
-部署文档
-最新版的flume1.8，请参官网 http://flume.apache.org/FlumeUserGuide.html 的使用说明，真
-          ...
-          <!--noindex-->
-          <div class="post-button text-center">
-            <a class="btn" href="/2020/05/11/flume1-8%E5%9C%A8%E7%BA%BF%E4%B8%8A%E4%B8%9A%E5%8A%A1%E4%B8%AD%E7%9A%84%E4%BD%BF%E7%94%A8%E5%92%8C%E6%80%BB%E7%BB%93/#more" rel="contents">
-              阅读全文 &raquo;
-            </a>
-          </div>
-          <!--/noindex-->
-        
-      
-    </div>
-    
-    
-    
-
-    
-
-    
-
-    
-
-    <footer class="post-footer">
-      
-
-      
-
-      
-
-      
-      
-        <div class="post-eof"></div>
-      
-    </footer>
-  </div>
-  
-  
-  
-  </article>
-
-
-    
-      
-
-  
-
-  
-  
-  
-
-  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
-  
-  
-  
-  <div class="post-block">
-    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2020/05/11/%E4%BB%8E0%E5%AD%A6java%E7%AC%AC1%E7%AF%87-%E5%AF%B9java%E7%9A%84%E7%B2%97%E6%B5%85%E7%90%86%E8%A7%A3/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="name" content="coral">
-      <meta itemprop="description" content="">
-      <meta itemprop="image" content="/%5Bobject%20Object%5D">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="入坑随手记">
-    </span>
-
-    
-      <header class="post-header">
-
-        
-        
-          <h1 class="post-title" itemprop="name headline">
-                
-                <a class="post-title-link" href="/2020/05/11/%E4%BB%8E0%E5%AD%A6java%E7%AC%AC1%E7%AF%87-%E5%AF%B9java%E7%9A%84%E7%B2%97%E6%B5%85%E7%90%86%E8%A7%A3/" itemprop="url">hdfs Cannot obtain block length for LocatedBlock异常的解决</a></h1>
-        
-
-        <div class="post-meta">
-          <span class="post-time">
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-calendar-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">发表于</span>
-              
-              <time title="创建于" itemprop="dateCreated datePublished" datetime="2020-05-11T23:36:00+08:00">
-                2020-05-11
-              </time>
-            
-
-            
-
-            
-          </span>
-
-          
-            <span class="post-category" >
-            
-              <span class="post-meta-divider">|</span>
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-folder-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">分类于</span>
-              
-              
-                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-                  <a href="/categories/hadoop/" itemprop="url" rel="index">
-                    <span itemprop="name">hadoop</span>
-                  </a>
-                </span>
-
-                
-                
-              
-            </span>
-          
-
-          
-            
-          
-
-          
-          
-
-          
-
-          
-
-          
-
-        </div>
-      </header>
-    
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-
-      
-      
-
-      
-        
-          
-          问题的发现在备份hdfs的数据到本地磁盘时，使用了get命令，结果报错了，具体的错误就是Cannot obtain block length for LocatedBlock这个异常。发现这个问题之后就开始解决问题。
-问题出现的原因写hdfs的上游是flume，所以就去查出错数据当天是否调整过flu
-          ...
-          <!--noindex-->
-          <div class="post-button text-center">
-            <a class="btn" href="/2020/05/11/%E4%BB%8E0%E5%AD%A6java%E7%AC%AC1%E7%AF%87-%E5%AF%B9java%E7%9A%84%E7%B2%97%E6%B5%85%E7%90%86%E8%A7%A3/#more" rel="contents">
-              阅读全文 &raquo;
-            </a>
-          </div>
-          <!--/noindex-->
-        
-      
-    </div>
-    
-    
-    
-
-    
-
-    
-
-    
-
-    <footer class="post-footer">
-      
-
-      
-
-      
-
-      
-      
-        <div class="post-eof"></div>
-      
-    </footer>
-  </div>
-  
-  
-  
-  </article>
-
-
-    
-      
-
-  
-
-  
-  
-  
-
-  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
-  
-  
-  
-  <div class="post-block">
-    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2020/05/11/%E4%BB%8E0%E5%AD%A6java%E7%AC%AC1%E7%AF%87-%E5%AF%B9java%E7%9A%84%E7%B2%97%E6%B5%85%E7%90%86%E8%A7%A3-1/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="name" content="coral">
-      <meta itemprop="description" content="">
-      <meta itemprop="image" content="/%5Bobject%20Object%5D">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="入坑随手记">
-    </span>
-
-    
-      <header class="post-header">
-
-        
-        
-          <h1 class="post-title" itemprop="name headline">
-                
-                <a class="post-title-link" href="/2020/05/11/%E4%BB%8E0%E5%AD%A6java%E7%AC%AC1%E7%AF%87-%E5%AF%B9java%E7%9A%84%E7%B2%97%E6%B5%85%E7%90%86%E8%A7%A3-1/" itemprop="url">从0学java第1篇--对java的粗浅理解</a></h1>
-        
-
-        <div class="post-meta">
-          <span class="post-time">
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-calendar-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">发表于</span>
-              
-              <time title="创建于" itemprop="dateCreated datePublished" datetime="2020-05-11T23:35:00+08:00">
-                2020-05-11
-              </time>
-            
-
-            
-
-            
-          </span>
-
-          
-            <span class="post-category" >
-            
-              <span class="post-meta-divider">|</span>
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-folder-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">分类于</span>
-              
-              
-                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-                  <a href="/categories/java/" itemprop="url" rel="index">
-                    <span itemprop="name">java</span>
-                  </a>
-                </span>
-
-                
-                
-              
-            </span>
-          
-
-          
-            
-          
-
-          
-          
-
-          
-
-          
-
-          
-
-        </div>
-      </header>
-    
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-
-      
-      
-
-      
-        
-          
-          对java的粗浅理解对java有过简单了解的人都听说过java是”一次书写，到处运行”这一大特点，这个说的就是java的跨平台的特性。但是这种特性并不只是java才有的，java只是比较成熟一些而已。
-所谓的”一次书写，到处运行”指的是我们编写好的程序，通过javac编译后，变成.class文件的字
-          ...
-          <!--noindex-->
-          <div class="post-button text-center">
-            <a class="btn" href="/2020/05/11/%E4%BB%8E0%E5%AD%A6java%E7%AC%AC1%E7%AF%87-%E5%AF%B9java%E7%9A%84%E7%B2%97%E6%B5%85%E7%90%86%E8%A7%A3-1/#more" rel="contents">
-              阅读全文 &raquo;
-            </a>
-          </div>
-          <!--/noindex-->
-        
-      
-    </div>
-    
-    
-    
-
-    
-
-    
-
-    
-
-    <footer class="post-footer">
-      
-
-      
-
-      
-
-      
-      
-        <div class="post-eof"></div>
-      
-    </footer>
-  </div>
-  
-  
-  
-  </article>
-
 
+  <div id="posts" class="posts-expand">
     
-      
 
   
 
@@ -1232,9 +321,7 @@ flume是一个日志采集、聚合和传输的系统
 
         
         
-          <h1 class="post-title" itemprop="name headline">
-                
-                <a class="post-title-link" href="/2020/05/11/google%E7%9A%84tensor2tensor%E7%9A%84%E5%AD%A6%E4%B9%A0%E5%92%8C%E4%BD%BF%E7%94%A8/" itemprop="url">google的tensor2tensor的学习和使用</a></h1>
+          <h1 class="post-title" itemprop="name headline">google的tensor2tensor的学习和使用</h1>
         
 
         <div class="post-meta">
@@ -1306,24 +393,86 @@ flume是一个日志采集、聚合和传输的系统
       
 
       
-        
-          
-          前言
-tensor2tensor（t2t）是google基于tensorflow新开源的深度学习库，该库将深度学习所需要的元素（数据集、模型、学习率、超参数等）封装成标准化的统一接口，在使用其做模型训练时可以更加的灵活。
+        <h3 id="前言"><a href="#前言" class="headerlink" title="前言"></a>前言</h3><ul>
+<li>tensor2tensor（t2t）是google基于tensorflow新开源的深度学习库，该库将深度学习所需要的元素（数据集、模型、学习率、超参数等）封装成标准化的统一接口，在使用其做模型训练时可以更加的灵活。</li>
+</ul>
+<h3 id="当前环境"><a href="#当前环境" class="headerlink" title="当前环境"></a>当前环境</h3><ul>
+<li>mac 10.13.3</li>
+<li>tensorflow 1.6.0</li>
+<li>tensor2tensor 1.5.5</li>
+</ul>
+<h3 id="安装模块"><a href="#安装模块" class="headerlink" title="安装模块"></a>安装模块</h3><ul>
+<li>源码下载：<a href="https://github.com/tensorflow/tensor2tensor" target="_blank" rel="noopener">https://github.com/tensorflow/tensor2tensor</a></li>
+<li>sudo pip install tensorflow==1.6.0</li>
+<li>sudo pip install tensor2tensor==1.5.5</li>
+</ul>
+<h3 id="开启学习之旅"><a href="#开启学习之旅" class="headerlink" title="开启学习之旅"></a>开启学习之旅</h3><p>在下载的源码中有自带的一些简单的测试样例。如mnist,，可以参考<a href="https://github.com/tensorflow/tensor2tensor/blob/master/tensor2tensor/notebooks/hello_t2t.ipynb" target="_blank" rel="noopener">https://github.com/tensorflow/tensor2tensor/blob/master/tensor2tensor/notebooks/hello_t2t.ipynb</a><br>来做初步的了解。</p>
+<p>同时t2t支持自定义的样本数据和自定义的参数配置，下面以我自定义了一个训练样本开始介绍。</p>
+<p>已将下述的代码上传：<a href="https://download.csdn.net/download/csa121/10672326" target="_blank" rel="noopener">https://download.csdn.net/download/csa121/10672326</a><br>根据下述的介绍也可以自己搭建一个环境的。</p>
+<h4 id="0-目录结构"><a href="#0-目录结构" class="headerlink" title="0.目录结构"></a>0.目录结构</h4><p>因为有需要注意的点，先看下我自定义样本的目录结构：<br><img src="http://img.blog.csdn.net/20180318200525009?watermark/2/text/aHR0cDovL2Jsb2cuY3Nkbi5uZXQvY3NhMTIx/font/5a6L5L2T/fontsize/400/fill/I0JBQkFCMA==/dissolve/70/gravity/SouthEast" alt="目录结构"></p>
+<p>decoder：预测要用到的目录<br>rawdata：原始样本存放的目录<br>self_data：原始样本格式化后存放的目录<br>self_script：自定义problem脚本存放的目录<br>train：训练出来的模型和导出的模型存放的目录</p>
+<p>注：只是为了后续介绍的更清楚才说明的目录结构，不是t2t要求的目录结构。</p>
+<h4 id="1-需求"><a href="#1-需求" class="headerlink" title="1.需求"></a>1.需求</h4><p>训练一些评论和标签样本，生成一个模型，可以给新的评论打一个标签</p>
+<h4 id="2-样本"><a href="#2-样本" class="headerlink" title="2.样本"></a>2.样本</h4><p>评论样本 rawdata/q.txt：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line">内容很多很棒</span><br><span class="line">好老师！有耐心！培养孩子兴趣！赞一个</span><br><span class="line">课程很精彩，老师会结合自身作为案例进行分享</span><br><span class="line">老师很幽默</span><br><span class="line">老师的能力值得肯定</span><br><span class="line">喜欢上老师的数学课</span><br><span class="line">老师上课气氛特别好</span><br><span class="line">每次听完老师的课都觉得让自己又丰富了许多</span><br><span class="line">挺善于沟通的,比较容易接受</span><br><span class="line">观点很新颖,谢谢老师</span><br></pre></td></tr></table></figure>
 
-当前环境
-mac 10.13.3
-tensorflow 1.6.0
-tens
-          ...
-          <!--noindex-->
-          <div class="post-button text-center">
-            <a class="btn" href="/2020/05/11/google%E7%9A%84tensor2tensor%E7%9A%84%E5%AD%A6%E4%B9%A0%E5%92%8C%E4%BD%BF%E7%94%A8/#more" rel="contents">
-              阅读全文 &raquo;
-            </a>
-          </div>
-          <!--/noindex-->
-        
+<p>标签样本 rawdata/a.txt</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line">授课熟练</span><br><span class="line">态度认真负责</span><br><span class="line">授课熟练</span><br><span class="line">幽默风趣</span><br><span class="line">性价比高</span><br><span class="line">幽默风趣</span><br><span class="line">上课气氛活跃</span><br><span class="line">内容新颖有用</span><br><span class="line">性价比高</span><br><span class="line">内容新颖有用</span><br></pre></td></tr></table></figure>
+<h4 id="3-编写自定义的problem"><a href="#3-编写自定义的problem" class="headerlink" title="3.编写自定义的problem"></a>3.编写自定义的problem</h4><p>self_script/my_problem.py</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br></pre></td><td class="code"><pre><span class="line"># coding&#x3D;utf-8</span><br><span class="line">from tensor2tensor.utils import registry</span><br><span class="line">from tensor2tensor.data_generators import problem, text_problems</span><br><span class="line"></span><br><span class="line">#自定义的problem一定要加该装饰器，不然t2t库找不到自定义的problem</span><br><span class="line">@registry.register_problem</span><br><span class="line">class MyProblem(text_problems.Text2TextProblem):</span><br><span class="line">    @property</span><br><span class="line">    def approx_vocab_size(self):</span><br><span class="line">        return 2**11</span><br><span class="line"></span><br><span class="line">    @property</span><br><span class="line">    def is_generate_per_split(self):</span><br><span class="line">        return False</span><br><span class="line"></span><br><span class="line">    @property</span><br><span class="line">    def dataset_splits(self):</span><br><span class="line">        return [&#123;</span><br><span class="line">            &quot;split&quot;: problem.DatasetSplit.TRAIN,</span><br><span class="line">            &quot;shards&quot;: 9,</span><br><span class="line">        &#125;, &#123;</span><br><span class="line">            &quot;split&quot;: problem.DatasetSplit.EVAL,</span><br><span class="line">            &quot;shards&quot;: 1,</span><br><span class="line">        &#125;]</span><br><span class="line"></span><br><span class="line">    def generate_samples(self, data_dir, tmp_dir, dataset_split):</span><br><span class="line">        del data_dir</span><br><span class="line">        del tmp_dir</span><br><span class="line">        del dataset_split</span><br><span class="line">		#读取原始的训练样本数据</span><br><span class="line">        q_r &#x3D; open(&quot;.&#x2F;rawdata&#x2F;q.txt&quot;, &quot;r&quot;)</span><br><span class="line">        a_r &#x3D; open(&quot;.&#x2F;rawdata&#x2F;a.txt&quot;, &quot;r&quot;)</span><br><span class="line"></span><br><span class="line">        comment_list &#x3D; q_r.readlines()</span><br><span class="line">        tag_list &#x3D; a_r.readlines()</span><br><span class="line">        q_r.close()</span><br><span class="line">        a_r.close()</span><br><span class="line">        for comment, tag in zip(comment_list, tag_list):</span><br><span class="line">            comment &#x3D; comment.strip()</span><br><span class="line">            tag &#x3D; tag.strip()</span><br><span class="line">            yield &#123;</span><br><span class="line">                &quot;inputs&quot;: comment,</span><br><span class="line">                &quot;targets&quot;: tag</span><br><span class="line">            &#125;</span><br></pre></td></tr></table></figure>
+<p>self_script/<strong>init</strong>.py</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">from . import my_problem</span><br></pre></td></tr></table></figure>
+
+<p>需要注意的点：<br>（1）一定要在<strong>init</strong>.py文件中引入模块，否则t2t的命令找不到自定义的problem；</p>
+<p>（2）自定义的problem文件名一定要和脚本中的class名保持一致，如：文件名是my_problem，类名需要是MyProblem，否则t2t的命令找不到自定义的problem。希望后续的版本不会有这个问题吧。</p>
+<h4 id="4-格式化样本"><a href="#4-格式化样本" class="headerlink" title="4.格式化样本"></a>4.格式化样本</h4><p>要将原始的样本数据转换成t2t自己的数据集格式（TFRecord），使用t2t-datagen命令执行：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">t2t-datagen --t2t_usr_dir&#x3D;self_script --problem&#x3D;my_problem --data_dir&#x3D;.&#x2F;self_data</span><br></pre></td></tr></table></figure>
+<p>格式化的数据会在self_data目录下生成一些文件如下：</p>
+<p><img src="http://img.blog.csdn.net/20180318202301389?watermark/2/text/aHR0cDovL2Jsb2cuY3Nkbi5uZXQvY3NhMTIx/font/5a6L5L2T/fontsize/400/fill/I0JBQkFCMA==/dissolve/70/gravity/SouthEast" alt="格式化数据文件"></p>
+<p>后续我们的训练就是读这些文件。</p>
+<h4 id="5-训练"><a href="#5-训练" class="headerlink" title="5.训练"></a>5.训练</h4><p>使用t2t-trainer命令对格式化样本进行训练：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">t2t-trainer --t2t_usr_dir&#x3D;self_script --problem&#x3D;my_problem --data_dir&#x3D;.&#x2F;self_data --model&#x3D;lstm_seq2seq_attention --hparams_set&#x3D;lstm_attention --output_dir&#x3D;.&#x2F;train</span><br></pre></td></tr></table></figure>
+<p>我们使用的模型是lstm_seq2seq_attention模型，使用的超参数集是lstm_attention。因为还在学习阶段，就没有特地去选择模型。</p>
+<p>需要注意的点：<br>（1）如果在训练过程中有如下报错：</p>
+<p><img src="http://img.blog.csdn.net/20180318203105033?watermark/2/text/aHR0cDovL2Jsb2cuY3Nkbi5uZXQvY3NhMTIx/font/5a6L5L2T/fontsize/400/fill/I0JBQkFCMA==/dissolve/70/gravity/SouthEast" alt="训练报错"></p>
+<p>说明当前tensor2tensor和tensorflow的版本兼容有问题，需要更换两者的版本，经过查阅tensor2tensor在github的代码提交和其他信息，试验出来tensor2tensor==1.5.3和tensorflow==1.4.1这两个版本组合是没有问题的。有报错的可以把两者版本降低一下。</p>
+<p>（2）在训练过程中我没有指定训练的次数和打印准确率的步数，t2t默认是训练1000次打印一次准确率。如果感觉准确率符合预期的话，可以直接kill掉训练任务。t2t会自动保存最新的训练模型。</p>
+<h4 id="6-预测"><a href="#6-预测" class="headerlink" title="6.预测"></a>6.预测</h4><p>使用t2t-decoder命令对训练好的样本进行预测<br>先看下预测的样本：<br>decoder/q.txt</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">老师很幽默</span><br><span class="line">非常好 讲的很详细 很幽默哈哈哈</span><br><span class="line">第一次听！讲得还挺清楚，只是不清楚后面怎么安排呢</span><br></pre></td></tr></table></figure>
+<p>预测是命令：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">t2t-decoder --t2t_usr_dir&#x3D;self_script --problem&#x3D;my_problem --data_dir&#x3D;.&#x2F;self_data --model&#x3D;lstm_seq2seq_attention --hparams_set&#x3D;lstm_attention --output_dir&#x3D;.&#x2F;train --decode_hparams&#x3D;&quot;beam_size&#x3D;4,alpha&#x3D;0.6&quot; --decode_from_file&#x3D;decoder&#x2F;q.txt --decode_to_file&#x3D;decoder&#x2F;a.txt</span><br></pre></td></tr></table></figure>
+<p>可以在你指定的decode_to_file文件下看到预测的结果是否符合预期</p>
+<h4 id="7-导出模型"><a href="#7-导出模型" class="headerlink" title="7.导出模型"></a>7.导出模型</h4><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">t2t-exporter --t2t_usr_dir&#x3D;self_script --problems&#x3D;my_problem --data_dir&#x3D;.&#x2F;self_data --model&#x3D;lstm_seq2seq_attention --hparams_set&#x3D;lstm_attention --output_dir&#x3D;.&#x2F;train</span><br></pre></td></tr></table></figure>
+<p>需要注意的点：<br>（1）github中t2t的源码中有提到导出功能只支持tensorflow 1.5+，所以如果在训练过程中有降低了tensorflow版本的操作，还需要把版本升到1.5+；</p>
+<p>（2）注意导出命令中的<strong>problems</strong>=my_problem参数，前面训练时使用的是<strong>problem</strong>=my_problem，<strong>导出时需要加problem参数名要加s</strong>。不知道t2t中为什么会存在这种不兼容的情况，希望后续会修复这个参数的问题吧。</p>
+<h4 id="8-搭建一个常驻内存的预测服务"><a href="#8-搭建一个常驻内存的预测服务" class="headerlink" title="8.搭建一个常驻内存的预测服务"></a>8.搭建一个常驻内存的预测服务</h4><p>搭建服务时请确保mac上安装了brew，没有安装的请先自行安装brew。后续步骤如下：<br>（1）安装tensorflow-serving-api</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">sudo pip install tensorflow-serving-api</span><br></pre></td></tr></table></figure>
+<p>（2）安装Bazel<br>bazel是google的一个编译工具，类似于Make。我们需要使用它对源码进行编译出一个tensorflow_model_server二进制文件。执行：brew install bazel</p>
+<p>（3）下载serving源码<br>我们需要使用bazel对源码进行编译，所以需要先下载该源码：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">git clone --recurse-submodules https:&#x2F;&#x2F;github.com&#x2F;tensorflow&#x2F;serving</span><br></pre></td></tr></table></figure>
+
+<p>（4）创建tensorflow_serving</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">cd serving</span><br><span class="line">bazel build tensorflow_serving&#x2F;</span><br></pre></td></tr></table></figure>
+
+<p>（5）编译出一个用来启动服务的tensorflow_model_server的二进制文件</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">bazel build -c opt &#x2F;&#x2F;tensorflow_serving&#x2F;model_servers:tensorflow_model_server</span><br></pre></td></tr></table></figure>
+<p>注：时间比较长，编译大概用了一个多小时吧</p>
+<p>（6）配置命令<br>将tensorflow_model_server命令起个别名指定到目录，这样就不用在特定的目录下执行启动服务的操作了</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">vim ~&#x2F;.bashrc</span><br><span class="line">alias tensorflow_model_server&#x3D;&#39;~&#x2F;serving&#x2F;bazel-bin&#x2F;tensorflow_serving&#x2F;model_servers&#x2F;tensorflow_model_server&#39;</span><br><span class="line">source ~&#x2F;.bashrc</span><br></pre></td></tr></table></figure>
+<p>（7）启动server</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">tensorflow_model_server --port&#x3D;9000 --model_name&#x3D;lstm_seq2seq_attention --model_base_path&#x3D;~&#x2F;self_t2t&#x2F;train&#x2F;export&#x2F;Servo</span><br></pre></td></tr></table></figure>
+<p>经过以上的步骤，就可以启动一个常驻内存的预测服务了。</p>
+<h4 id="9-客户端发请求预测"><a href="#9-客户端发请求预测" class="headerlink" title="9.客户端发请求预测"></a>9.客户端发请求预测</h4><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">t2t-query-server --server&#x3D;127.0.0.1:9000 --servable_name&#x3D;lstm_seq2seq_attention --t2t_usr_dir&#x3D;self_script --problem&#x3D;my_problem --data_dir&#x3D;.&#x2F;self_data</span><br></pre></td></tr></table></figure>
+
+<h3 id="后记"><a href="#后记" class="headerlink" title="后记"></a>后记</h3><ul>
+<li><p>经过上述的所有操作，对t2t的使用上有了一个初步的了解，在后续的使用中可以根据各自不同的业务场景自定义不同的problem、更换model和hparams。</p>
+</li>
+<li><p>在使用的过程中，发现目前t2t和tf的版本间兼容性还不是很好，相信后续应该会更完善吧。</p>
+</li>
+<li><p>虽然t2t将现有的一些主流模型做了封装，我们可以不用关注模型的生成，但是我们也有必要多了解其背后的实现原理。</p>
+</li>
+</ul>
+
       
     </div>
     
@@ -1338,173 +487,44 @@ tens
 
     <footer class="post-footer">
       
-
-      
-
-      
-
-      
-      
-        <div class="post-eof"></div>
-      
-    </footer>
-  </div>
-  
-  
-  
-  </article>
-
-
-    
-      
-
-  
-
-  
-  
-  
-
-  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
-  
-  
-  
-  <div class="post-block">
-    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2020/05/10/django%E5%85%A5%E9%97%A8/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="name" content="coral">
-      <meta itemprop="description" content="">
-      <meta itemprop="image" content="/%5Bobject%20Object%5D">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="入坑随手记">
-    </span>
-
-    
-      <header class="post-header">
-
-        
-        
-          <h1 class="post-title" itemprop="name headline">
-                
-                <a class="post-title-link" href="/2020/05/10/django%E5%85%A5%E9%97%A8/" itemprop="url">小白学django搭建网站</a></h1>
-        
-
-        <div class="post-meta">
-          <span class="post-time">
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-calendar-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">发表于</span>
-              
-              <time title="创建于" itemprop="dateCreated datePublished" datetime="2020-05-10T15:51:00+08:00">
-                2020-05-10
-              </time>
-            
-
-            
-
-            
-          </span>
-
+        <div class="post-tags">
           
-            <span class="post-category" >
-            
-              <span class="post-meta-divider">|</span>
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-folder-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">分类于</span>
-              
-              
-                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-                  <a href="/categories/python/" itemprop="url" rel="index">
-                    <span itemprop="name">python</span>
-                  </a>
-                </span>
-
-                
-                
-              
-            </span>
+            <a href="/tags/tensorflow/" rel="tag"># tensorflow</a>
           
-
+            <a href="/tags/%E6%9C%BA%E5%99%A8%E5%AD%A6%E4%B9%A0/" rel="tag"># 机器学习</a>
           
-            
+            <a href="/tags/tensor2tensor/" rel="tag"># tensor2tensor</a>
           
-
-          
-          
-
-          
-
-          
-
-          
-
         </div>
-      </header>
-    
+      
 
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-
+      
       
       
 
       
-        
-          
-          django是一个python语言开发的web框架。主要的组件以及特点
-
-强大的数据库功能
-自带后台管理功能
-优雅的网址
-模板系统
-缓存系统
-国际化
-
-1 搭建项目安装python2.7或者python3均可，安装pip（默认都有啦）
-1.1 安装django默认安装最新版
-(sudo) pip i
-          ...
-          <!--noindex-->
-          <div class="post-button text-center">
-            <a class="btn" href="/2020/05/10/django%E5%85%A5%E9%97%A8/#more" rel="contents">
-              阅读全文 &raquo;
-            </a>
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/2020/05/10/django%E5%85%A5%E9%97%A8/" rel="next" title="小白学django搭建网站">
+                <i class="fa fa-chevron-left"></i> 小白学django搭建网站
+              </a>
+            
           </div>
-          <!--/noindex-->
-        
-      
-    </div>
-    
-    
-    
 
-    
+          <span class="post-nav-divider"></span>
 
-    
-
-    
-
-    <footer class="post-footer">
+          <div class="post-nav-prev post-nav-item">
+            
+              <a href="/2020/05/11/%E4%BB%8E0%E5%AD%A6java%E7%AC%AC1%E7%AF%87-%E5%AF%B9java%E7%9A%84%E7%B2%97%E6%B5%85%E7%90%86%E8%A7%A3-1/" rel="prev" title="从0学java第1篇--对java的粗浅理解">
+                从0学java第1篇--对java的粗浅理解 <i class="fa fa-chevron-right"></i>
+              </a>
+            
+          </div>
+        </div>
       
 
       
-
-      
-
-      
-      
-        <div class="post-eof"></div>
       
     </footer>
   </div>
@@ -1514,10 +534,11 @@ tens
   </article>
 
 
-    
-  </section>
 
-  
+    <div class="post-spread">
+      
+    </div>
+  </div>
 
 
           </div>
@@ -1525,6 +546,10 @@ tens
 
 
           
+
+  
+
+
 
         </div>
         
@@ -1545,8 +570,17 @@ tens
       
 
       
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap">
+            文章目录
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview-wrap">
+            站点概览
+          </li>
+        </ul>
+      
 
-      <section class="site-overview-wrap sidebar-panel sidebar-panel-active">
+      <section class="site-overview-wrap sidebar-panel">
         <div class="site-overview">
           <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
             
@@ -1635,6 +669,22 @@ tens
         </div>
       </section>
 
+      
+      <!--noindex-->
+        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+
+            
+              
+            
+
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-3"><a class="nav-link" href="#前言"><span class="nav-number">1.</span> <span class="nav-text">前言</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#当前环境"><span class="nav-number">2.</span> <span class="nav-text">当前环境</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#安装模块"><span class="nav-number">3.</span> <span class="nav-text">安装模块</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#开启学习之旅"><span class="nav-number">4.</span> <span class="nav-text">开启学习之旅</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#0-目录结构"><span class="nav-number">4.1.</span> <span class="nav-text">0.目录结构</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#1-需求"><span class="nav-number">4.2.</span> <span class="nav-text">1.需求</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#2-样本"><span class="nav-number">4.3.</span> <span class="nav-text">2.样本</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#3-编写自定义的problem"><span class="nav-number">4.4.</span> <span class="nav-text">3.编写自定义的problem</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#4-格式化样本"><span class="nav-number">4.5.</span> <span class="nav-text">4.格式化样本</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#5-训练"><span class="nav-number">4.6.</span> <span class="nav-text">5.训练</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#6-预测"><span class="nav-number">4.7.</span> <span class="nav-text">6.预测</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#7-导出模型"><span class="nav-number">4.8.</span> <span class="nav-text">7.导出模型</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#8-搭建一个常驻内存的预测服务"><span class="nav-number">4.9.</span> <span class="nav-text">8.搭建一个常驻内存的预测服务</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#9-客户端发请求预测"><span class="nav-number">4.10.</span> <span class="nav-text">9.客户端发请求预测</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#后记"><span class="nav-number">5.</span> <span class="nav-text">后记</span></a></li></ol></div>
+            
+
+          </div>
+        </section>
+      <!--/noindex-->
       
 
       
@@ -1806,6 +856,10 @@ show_date_time();
 
 
   
+  <script type="text/javascript" src="/js/src/scrollspy.js?v=5.1.4"></script>
+<script type="text/javascript" src="/js/src/post-details.js?v=5.1.4"></script>
+
+
 
   
 

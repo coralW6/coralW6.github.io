@@ -68,7 +68,7 @@
 
 
 
-  <meta name="keywords" content="Hexo, NexT" />
+  <meta name="keywords" content="flume," />
 
 
 
@@ -81,15 +81,20 @@
 
 
 
-<meta name="description" content="hello world">
-<meta property="og:type" content="website">
-<meta property="og:title" content="入坑随手记">
-<meta property="og:url" content="http://yoursite.com/tags/python/index.html">
+<meta name="description" content="什么是flume？ flume是一个日志采集、聚合和传输的系统    作用是什么？ 作用就是将业务集群上各个机器上的日志收集起来，对数据做集中处理。  部署文档 最新版的flume1.8，请参官网 http:&#x2F;&#x2F;flume.apache.org&#x2F;FlumeUserGuide.html 的使用说明，真的很详细。 网上也有flume1.7的搭建教程，Google一下就可以，搭建过程没有太大的区别。">
+<meta property="og:type" content="article">
+<meta property="og:title" content="flume1.8在线上业务中的使用和总结">
+<meta property="og:url" content="http://yoursite.com/2020/05/11/flume1-8%E5%9C%A8%E7%BA%BF%E4%B8%8A%E4%B8%9A%E5%8A%A1%E4%B8%AD%E7%9A%84%E4%BD%BF%E7%94%A8%E5%92%8C%E6%80%BB%E7%BB%93/index.html">
 <meta property="og:site_name" content="入坑随手记">
-<meta property="og:description" content="hello world">
+<meta property="og:description" content="什么是flume？ flume是一个日志采集、聚合和传输的系统    作用是什么？ 作用就是将业务集群上各个机器上的日志收集起来，对数据做集中处理。  部署文档 最新版的flume1.8，请参官网 http:&#x2F;&#x2F;flume.apache.org&#x2F;FlumeUserGuide.html 的使用说明，真的很详细。 网上也有flume1.7的搭建教程，Google一下就可以，搭建过程没有太大的区别。">
+<meta property="og:image" content="http://upload-images.jianshu.io/upload_images/1462670-323b82d3b5790407.jpg?imageMogr2/auto-orient/strip">
+<meta property="og:image" content="http://img.blog.csdn.net/20180227212550956?watermark/2/text/aHR0cDovL2Jsb2cuY3Nkbi5uZXQvY3NhMTIx/font/5a6L5L2T/fontsize/400/fill/I0JBQkFCMA==/dissolve/70">
+<meta property="article:published_time" content="2020-05-11T15:43:00.000Z">
+<meta property="article:modified_time" content="2020-05-11T15:45:39.715Z">
 <meta property="article:author" content="coral">
-<meta property="article:tag" content="blog">
+<meta property="article:tag" content="flume">
 <meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="http://upload-images.jianshu.io/upload_images/1462670-323b82d3b5790407.jpg?imageMogr2/auto-orient/strip">
 
 
 
@@ -119,13 +124,13 @@
 
 
 
-  <link rel="canonical" href="http://yoursite.com/tags/python/"/>
+  <link rel="canonical" href="http://yoursite.com/2020/05/11/flume1-8在线上业务中的使用和总结/"/>
 
 
 
 
 
-  <title>标签: python | 入坑随手记</title>
+  <title>flume1.8在线上业务中的使用和总结 | 入坑随手记</title>
   
 
 
@@ -144,7 +149,7 @@
     
   
 
-  <div class="container sidebar-position-left ">
+  <div class="container sidebar-position-left page-post-detail">
     <div class="headband"></div>
 
     <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
@@ -282,110 +287,212 @@
           <div id="content" class="content">
             
 
+  <div id="posts" class="posts-expand">
+    
+
+  
+
   
   
   
-  <div class="post-block tag">
-
-    <div id="posts" class="posts-collapse">
-      <div class="collection-title">
-        <h1>python<small>标签</small>
-        </h1>
-      </div>
-
-      
-        
 
   <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
-    <header class="post-header">
+  
+  
+  
+  <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2020/05/11/flume1-8%E5%9C%A8%E7%BA%BF%E4%B8%8A%E4%B8%9A%E5%8A%A1%E4%B8%AD%E7%9A%84%E4%BD%BF%E7%94%A8%E5%92%8C%E6%80%BB%E7%BB%93/">
 
-      <h2 class="post-title">
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="coral">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="/%5Bobject%20Object%5D">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="入坑随手记">
+    </span>
+
+    
+      <header class="post-header">
+
         
-            <a class="post-title-link" href="/2020/05/11/scrapy%E5%86%99%E7%88%AC%E8%99%AB%E6%B3%A8%E6%84%8F%E4%BA%8B%E9%A1%B9/" itemprop="url">
-              
-                <span itemprop="name">scrapy写爬虫注意事项</span>
-              
-            </a>
         
-      </h2>
+          <h1 class="post-title" itemprop="name headline">flume1.8在线上业务中的使用和总结</h1>
+        
 
-      <div class="post-meta">
-        <time class="post-time" itemprop="dateCreated"
-              datetime="2020-05-11T23:47:00+08:00"
-              content="2020-05-11" >
-          05-11
-        </time>
-      </div>
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2020-05-11T23:43:00+08:00">
+                2020-05-11
+              </time>
+            
 
-    </header>
-  </article>
+            
 
+            
+          </span>
+
+          
+            <span class="post-category" >
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">分类于</span>
+              
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/flume/" itemprop="url" rel="index">
+                    <span itemprop="name">flume</span>
+                  </a>
+                </span>
+
+                
+                
+              
+            </span>
+          
+
+          
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
 
       
-        
-
-  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
-    <header class="post-header">
-
-      <h2 class="post-title">
-        
-            <a class="post-title-link" href="/2020/05/11/python%E6%95%B0%E6%8D%AE%E6%B8%85%E6%B4%97%E6%B5%81%E7%A8%8B%E5%92%8C%E6%B3%A8%E6%84%8F%E7%82%B9/" itemprop="url">
-              
-                <span itemprop="name">python数据清洗流程和注意点</span>
-              
-            </a>
-        
-      </h2>
-
-      <div class="post-meta">
-        <time class="post-time" itemprop="dateCreated"
-              datetime="2020-05-11T23:46:00+08:00"
-              content="2020-05-11" >
-          05-11
-        </time>
-      </div>
-
-    </header>
-  </article>
-
+      
 
       
-        
-
-  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
-    <header class="post-header">
-
-      <h2 class="post-title">
-        
-            <a class="post-title-link" href="/2020/05/10/django%E5%85%A5%E9%97%A8/" itemprop="url">
-              
-                <span itemprop="name">小白学django搭建网站</span>
-              
-            </a>
-        
-      </h2>
-
-      <div class="post-meta">
-        <time class="post-time" itemprop="dateCreated"
-              datetime="2020-05-10T15:51:00+08:00"
-              content="2020-05-10" >
-          05-10
-        </time>
-      </div>
-
-    </header>
-  </article>
-
+        <h4 id="什么是flume？"><a href="#什么是flume？" class="headerlink" title="什么是flume？"></a>什么是flume？</h4><ul>
+<li><p>flume是一个日志采集、聚合和传输的系统</p>
+<p><img src="http://upload-images.jianshu.io/upload_images/1462670-323b82d3b5790407.jpg?imageMogr2/auto-orient/strip" alt="这里写图片描述"></p>
+</li>
+</ul>
+<h4 id="作用是什么？"><a href="#作用是什么？" class="headerlink" title="作用是什么？"></a>作用是什么？</h4><ul>
+<li>作用就是将业务集群上各个机器上的日志收集起来，对数据做集中处理。</li>
+</ul>
+<h4 id="部署文档"><a href="#部署文档" class="headerlink" title="部署文档"></a>部署文档</h4><ul>
+<li>最新版的flume1.8，请参官网 <a href="http://flume.apache.org/FlumeUserGuide.html" target="_blank" rel="noopener">http://flume.apache.org/FlumeUserGuide.html</a> 的使用说明，真的很详细。</li>
+<li>网上也有flume1.7的搭建教程，Google一下就可以，搭建过程没有太大的区别。</li>
+</ul>
+<h4 id="前期调研"><a href="#前期调研" class="headerlink" title="前期调研"></a>前期调研</h4><p>在考虑日志的收集之前，我们主要调研了flume和logstash两款产品。当前业界使用较多的是logstash作为日志收集的工具。现将flume和logstash在我们的业务考虑范围内的区别简单罗列：</p>
+<ul>
+<li>Logstash偏重于字段的预处理；flume偏重数据的传输。</li>
+<li>Logstash有插件可以使用，配置比较灵活；flume则是强调用户的自定义开发(输入、存储、输出等)。</li>
+<li>Logstash的输入、过滤和输出之间都有缓冲区；flume是有channel作持久化（可以自定义配置）</li>
+</ul>
+<h4 id="选择使用flume的原因："><a href="#选择使用flume的原因：" class="headerlink" title="选择使用flume的原因："></a>选择使用flume的原因：</h4><ul>
+<li>传输数据的可靠性（主要因素）。每一个source和sink都被封装成一个事务存储在channel中，可以保证数据准确的被下游消费。如果下游服务挂掉，flume可以将数据持久化到本地，等待下游服务恢复后在输出。</li>
+<li>只传输数据不解析。不会对原始的数据进行过滤和预解析，尽量保证主站机器的资源不被日志服务占据太多。所有的解析操作可以放在下游进行。</li>
+<li>多种配置方式。有丰富的数据读取方式，tail、socket、exec等等。数据存储可以在本地或者内存，可以配置各种存储空间大小。多种数据输出方式，输出到hdfs、下游flume、es、kafka等等。</li>
+<li>多输入输出。可以同时有多个数据源，也可以同时将数据输出到多个下游。</li>
+<li>如果实时性要求不高的话可以采取批量读取的方式。</li>
+<li>输出数据时可以对数据进行压缩后输出，存储带hdfs的话可能会需要吧。</li>
+<li>有java的api，我们可以自己实现对数据的过滤。</li>
+</ul>
+<p>以上的调研并不能全面的概括flume的特性，只是它开箱即用的基本特性，其可扩展性很强大。</p>
+<h4 id="我们的日志收集系统的整体框架设计"><a href="#我们的日志收集系统的整体框架设计" class="headerlink" title="我们的日志收集系统的整体框架设计"></a>我们的日志收集系统的整体框架设计</h4><p><img src="http://img.blog.csdn.net/20180227212550956?watermark/2/text/aHR0cDovL2Jsb2cuY3Nkbi5uZXQvY3NhMTIx/font/5a6L5L2T/fontsize/400/fill/I0JBQkFCMA==/dissolve/70" alt="日志收集框架图"></p>
+<p>如上图所示，在每个nginx机器上部署一个flume的客户端，将我们关心的日志文件写到到flume的配置文件中，具体的配置可以自行网上查找。</p>
+<h4 id="遇到的问题及解决办法"><a href="#遇到的问题及解决办法" class="headerlink" title="遇到的问题及解决办法"></a>遇到的问题及解决办法</h4><p>1、flume的服务挂了 日志数据怎么办？<br>可以采用将服务以守护进程的方式启动，监控进程的状态，日志是后端和nginx实时打在磁盘的，所以就算服务挂了，重启后也是可以读取到日志的对应位置。或者将flume的channel配置成file，就不会出现日志数据丢失的问题。</p>
+<p>2、监听的文件fd换了 怎么监控？<br>flume监控的是文件名，并不是fd，所以当原始日志切换切分时，新创建的日志文件只要名称不变，还是可以监控到。</p>
+<p>3、当flume的sink配置的是hdfs时，可以选择将数据压缩。flume支持通用的压缩算法。我们采用了gzip的压缩算法，比不压缩节省约70%的磁盘空间。</p>
+<h4 id="最最最重要的问题来了"><a href="#最最最重要的问题来了" class="headerlink" title="最最最重要的问题来了"></a>最最最重要的问题来了</h4><p>在flume的sink配置的是hdfs时，请做以下操作，顺序无所谓：</p>
+<ul>
+<li>flume使用的是hadoop和hdfs中的lib目录下的jar包，所以需要将对应的jar包导入到flume的lib目录下；</li>
+<li>导入core-site.xml和hdfs-site.xml文件，如果文件中配置的是hadoop节点的名字，需要将名字和对应的机器ip配置到/etc/hosts中，不然flume找不到；</li>
+<li>一定要将hadoop集群中的native目录导入到flume服务端所在机器的环境变量中，命令 export ~/flume/native。原因是Hadoop是使用Java开发的，但是有一些需求和操作并不适合使用java，所以就引入了本地库的概念，通过本地库，Hadoop可以更加高效地执行某一些操作。</li>
+</ul>
+<p>没有导入的时候一般的操作没有什么问题，但是，使用gzip做数据压缩时就会出现系统环境的问题，导致hadoop集群上hive不能正确的解压缩数据。<br>没有导入native时，gzip压缩的文件使用file查看文件类型时是: gzip compressed data, from FAT filesystem (MS-DOS, OS/2, NT)<br>导入后，gzip压缩的文件使用file查看文件类型时是: gzip compressed data, from Unix。这才是我们想要的压缩文件。<br>所以，一定要导入native！！！千万不要踩坑！！！</p>
 
       
     </div>
+    
+    
+    
 
+    
+
+    
+
+    
+
+    <footer class="post-footer">
+      
+        <div class="post-tags">
+          
+            <a href="/tags/flume/" rel="tag"># flume</a>
+          
+        </div>
+      
+
+      
+      
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/2020/05/11/%E4%BB%8E0%E5%AD%A6java%E7%AC%AC1%E7%AF%87-%E5%AF%B9java%E7%9A%84%E7%B2%97%E6%B5%85%E7%90%86%E8%A7%A3/" rel="next" title="hdfs Cannot obtain block length for LocatedBlock异常的解决">
+                <i class="fa fa-chevron-left"></i> hdfs Cannot obtain block length for LocatedBlock异常的解决
+              </a>
+            
+          </div>
+
+          <span class="post-nav-divider"></span>
+
+          <div class="post-nav-prev post-nav-item">
+            
+              <a href="/2020/05/11/python%E6%95%B0%E6%8D%AE%E6%B8%85%E6%B4%97%E6%B5%81%E7%A8%8B%E5%92%8C%E6%B3%A8%E6%84%8F%E7%82%B9/" rel="prev" title="python数据清洗流程和注意点">
+                python数据清洗流程和注意点 <i class="fa fa-chevron-right"></i>
+              </a>
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
   </div>
   
   
   
+  </article>
 
-  
+
+
+    <div class="post-spread">
+      
+    </div>
+  </div>
 
 
           </div>
@@ -393,6 +500,10 @@
 
 
           
+
+  
+
+
 
         </div>
         
@@ -413,8 +524,17 @@
       
 
       
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap">
+            文章目录
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview-wrap">
+            站点概览
+          </li>
+        </ul>
+      
 
-      <section class="site-overview-wrap sidebar-panel sidebar-panel-active">
+      <section class="site-overview-wrap sidebar-panel">
         <div class="site-overview">
           <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
             
@@ -503,6 +623,22 @@
         </div>
       </section>
 
+      
+      <!--noindex-->
+        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+
+            
+              
+            
+
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-4"><a class="nav-link" href="#什么是flume？"><span class="nav-number">1.</span> <span class="nav-text">什么是flume？</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#作用是什么？"><span class="nav-number">2.</span> <span class="nav-text">作用是什么？</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#部署文档"><span class="nav-number">3.</span> <span class="nav-text">部署文档</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#前期调研"><span class="nav-number">4.</span> <span class="nav-text">前期调研</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#选择使用flume的原因："><span class="nav-number">5.</span> <span class="nav-text">选择使用flume的原因：</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#我们的日志收集系统的整体框架设计"><span class="nav-number">6.</span> <span class="nav-text">我们的日志收集系统的整体框架设计</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#遇到的问题及解决办法"><span class="nav-number">7.</span> <span class="nav-text">遇到的问题及解决办法</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#最最最重要的问题来了"><span class="nav-number">8.</span> <span class="nav-text">最最最重要的问题来了</span></a></li></ol></div>
+            
+
+          </div>
+        </section>
+      <!--/noindex-->
       
 
       
@@ -674,6 +810,10 @@ show_date_time();
 
 
   
+  <script type="text/javascript" src="/js/src/scrollspy.js?v=5.1.4"></script>
+<script type="text/javascript" src="/js/src/post-details.js?v=5.1.4"></script>
+
+
 
   
 
