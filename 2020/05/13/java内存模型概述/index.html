@@ -68,7 +68,7 @@
 
 
 
-  <meta name="keywords" content="Hexo, NexT" />
+  <meta name="keywords" content="java,jvm," />
 
 
 
@@ -81,15 +81,20 @@
 
 
 
-<meta name="description" content="hello world">
-<meta property="og:type" content="website">
-<meta property="og:title" content="入坑随手记">
-<meta property="og:url" content="http://yoursite.com/categories/%E6%9C%BA%E5%99%A8%E5%AD%A6%E4%B9%A0/index.html">
+<meta name="description" content="总体结构Java虚拟机在执行Java程序的过程中会把它所管理的内存划分为若干个不同的数据区域。这些区域有各自的用途，以及创建和销毁的时间，有的区域随着虚拟机进程的启动而一直存在，有些区域则是依赖用户线程的启动和结束而建立和销毁。如下图所示：     程序计数器程序计数器占用整个数据区较小的一块空间，可以看做是当前线程所执行的字节码的行号指示器。在虚拟机的模型中，程序计数器的作用就是字节码解释器通过">
+<meta property="og:type" content="article">
+<meta property="og:title" content="java内存模型概述">
+<meta property="og:url" content="http://yoursite.com/2020/05/13/java%E5%86%85%E5%AD%98%E6%A8%A1%E5%9E%8B%E6%A6%82%E8%BF%B0/index.html">
 <meta property="og:site_name" content="入坑随手记">
-<meta property="og:description" content="hello world">
+<meta property="og:description" content="总体结构Java虚拟机在执行Java程序的过程中会把它所管理的内存划分为若干个不同的数据区域。这些区域有各自的用途，以及创建和销毁的时间，有的区域随着虚拟机进程的启动而一直存在，有些区域则是依赖用户线程的启动和结束而建立和销毁。如下图所示：     程序计数器程序计数器占用整个数据区较小的一块空间，可以看做是当前线程所执行的字节码的行号指示器。在虚拟机的模型中，程序计数器的作用就是字节码解释器通过">
+<meta property="og:image" content="https://img-blog.csdnimg.cn/20200512233118835.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L2NzYTEyMQ==,size_5,color_FFFFFF,t_70#pic_center">
+<meta property="article:published_time" content="2020-05-13T15:53:00.000Z">
+<meta property="article:modified_time" content="2020-05-13T15:58:36.240Z">
 <meta property="article:author" content="coral">
-<meta property="article:tag" content="blog">
+<meta property="article:tag" content="java">
+<meta property="article:tag" content="jvm">
 <meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="https://img-blog.csdnimg.cn/20200512233118835.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L2NzYTEyMQ==,size_5,color_FFFFFF,t_70#pic_center">
 
 
 
@@ -119,13 +124,13 @@
 
 
 
-  <link rel="canonical" href="http://yoursite.com/categories/机器学习/"/>
+  <link rel="canonical" href="http://yoursite.com/2020/05/13/java内存模型概述/"/>
 
 
 
 
 
-  <title>分类: 机器学习 | 入坑随手记</title>
+  <title>java内存模型概述 | 入坑随手记</title>
   
 
 
@@ -144,7 +149,7 @@
     
   
 
-  <div class="container sidebar-position-left ">
+  <div class="container sidebar-position-left page-post-detail">
     <div class="headband"></div>
 
     <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
@@ -282,55 +287,199 @@
           <div id="content" class="content">
             
 
-  
-  
-  
-  <div class="post-block category">
+  <div id="posts" class="posts-expand">
+    
 
-    <div id="posts" class="posts-collapse">
-      <div class="collection-title">
-        <h1>机器学习<small>分类</small>
-        </h1>
-      </div>
+  
 
-      
-        
+  
+  
+  
 
   <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
-    <header class="post-header">
+  
+  
+  
+  <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2020/05/13/java%E5%86%85%E5%AD%98%E6%A8%A1%E5%9E%8B%E6%A6%82%E8%BF%B0/">
 
-      <h2 class="post-title">
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="coral">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="/%5Bobject%20Object%5D">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="入坑随手记">
+    </span>
+
+    
+      <header class="post-header">
+
         
-            <a class="post-title-link" href="/2020/05/11/google%E7%9A%84tensor2tensor%E7%9A%84%E5%AD%A6%E4%B9%A0%E5%92%8C%E4%BD%BF%E7%94%A8/" itemprop="url">
-              
-                <span itemprop="name">google的tensor2tensor的学习和使用</span>
-              
-            </a>
         
-      </h2>
+          <h1 class="post-title" itemprop="name headline">java内存模型概述</h1>
+        
 
-      <div class="post-meta">
-        <time class="post-time" itemprop="dateCreated"
-              datetime="2020-05-11T23:25:00+08:00"
-              content="2020-05-11" >
-          05-11
-        </time>
-      </div>
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2020-05-13T23:53:00+08:00">
+                2020-05-13
+              </time>
+            
 
-    </header>
-  </article>
+            
 
+            
+          </span>
+
+          
+            <span class="post-category" >
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">分类于</span>
+              
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/java/" itemprop="url" rel="index">
+                    <span itemprop="name">java</span>
+                  </a>
+                </span>
+
+                
+                
+              
+            </span>
+          
+
+          
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        <h2 id="总体结构"><a href="#总体结构" class="headerlink" title="总体结构"></a>总体结构</h2><p>Java虚拟机在执行Java程序的过程中会把它所管理的内存划分为若干个不同的数据区域。这些区域有各自的用途，以及创建和销毁的时间，有的区域随着虚拟机进程的启动而一直存在，有些区域则是依赖用户线程的启动和结束而建立和销毁。如下图所示：</p>
+<img src="https://img-blog.csdnimg.cn/20200512233118835.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L2NzYTEyMQ==,size_5,color_FFFFFF,t_70#pic_center" alt="图片替换文本" width="400" height="300" align="bottom" />
+
+
+<hr>
+<h2 id="程序计数器"><a href="#程序计数器" class="headerlink" title="程序计数器"></a>程序计数器</h2><p>程序计数器占用整个数据区较小的一块空间，可以看做是当前线程所执行的字节码的行号指示器。在虚拟机的模型中，程序计数器的作用就是字节码解释器通过改变计数器的值来选取下一条要执行的指令。在代码层面上，<strong>我们经常用到的分支（if…else…）、循环、跳转、异常处理、线程恢复等基础功能都依赖这个计数器完成</strong>。</p>
+<p>在java虚拟机中的多线程是通过线程轮流切换，分配处理器的执行时间来实现的。在任何一个确定的时刻，对于一个处理器（多核的机器就是其中的一个核），都只会执行一个线程中的一个指令，当该线程的cpu时间片用完需要让出计算资源时候，需要保存该线程当前执行位置，以便下次能够从正确的位置恢复执行，因此每个线程都有独立的程序计数器，且相互独立存储，互不影响。所以程序计数器是<strong>每个线程的私有区域</strong>。</p>
+<p>如果线程执行的是一个java方法，计数器记录的是程序正在执行的字节码指令所在的位置，如果执行的是一个native方法，计数器的值是空值</p>
+<hr>
+<h2 id="java虚拟机栈（jvm-stack）"><a href="#java虚拟机栈（jvm-stack）" class="headerlink" title="java虚拟机栈（jvm stack）"></a>java虚拟机栈（jvm stack）</h2><p>jvm stack也是<strong>线程私有</strong>的，生命周期和线程一样，用来描述java方法执行时候的线程内存模型。</p>
+<p>每个方法在执行的时候都会同步创建一个栈帧（stack frame）用来存储方法内部的局部变量表、操作数栈、动态链接、方法出口等信息。每个方法被调用知道执行完毕的过程，就是一个栈帧在jvm stack 入栈到出栈的过程</p>
+<hr>
+<h2 id="本地方法栈"><a href="#本地方法栈" class="headerlink" title="本地方法栈"></a>本地方法栈</h2><p>本地方法栈和jvm stack的作用类似。区别在于，jvm stack为虚拟机执行java方法（字节码）服务，本地方法栈则是为虚拟机执行本地方法服务，也是<strong>线程私有</strong>的</p>
+<hr>
+<h2 id="java-堆（GC-Heap）"><a href="#java-堆（GC-Heap）" class="headerlink" title="java 堆（GC Heap）"></a>java 堆（GC Heap）</h2><p>从java应用程序的角度来说，jav堆是java应用程序所管理的最大的一块内存，<strong>被所有的线程共享</strong> ，在虚拟机启动时创建。java堆的<strong>唯一</strong>作用就是<strong>存放对象实例</strong>，java的世界里，几乎所有的对象实例都在这里分配内存。</p>
+<p><strong>java堆是垃圾回收器管理的一块区域</strong>。</p>
+<p>从垃圾回收的角度看，现代的垃圾回收器都是采用的分代回收理论设计的，就是我们熟悉的<strong>新生代、老年代、永久代、Eden空间、From Survivor空间、To Survivor空间等</strong>名词。在G1回收器出现为界限，之前的回收器，尤其是业界绝对主流的HotSpot虚拟机，都是采用这种经典分代的设计思想；但是到了如今，垃圾回收技术已不可同日而语，HotSpot中也出现了不采用分代设计的垃圾回收器，所以不能再按照上面的经典分代方式看待了。</p>
+<p>从内存分配的角度看，所有线程共享的java堆可以划分出多个线程私有的分配缓冲区，有利于提升对象分配时的效率。但是无论什么角度，何种划分，都不能改变java堆存储内容的特点：<strong>存储的都是对象的实例</strong></p>
+<hr>
+<h2 id="方法区"><a href="#方法区" class="headerlink" title="方法区"></a>方法区</h2><p>方法区和java堆一样，是<strong>线程共享</strong>的内存区域，用于存储被虚拟机加载的<strong>类型信息、常量、静态变量、及时编译器编译后的代码缓存</strong>等。方法区还有一个别名叫做<strong>非堆</strong>，目的就是要和java堆做区分。</p>
+<hr>
+<h2 id="运行时常量池"><a href="#运行时常量池" class="headerlink" title="运行时常量池"></a>运行时常量池</h2><p>运行时常量池属于方法区的一部分，class文件中除了类的版本、字段、方法、接口等描述信息之外，还有一项信息是<strong>常量池表</strong>，用来<strong>存放编译期间生成的各种字面量和符号引用</strong>，这部分内容将在类加载后存放在方法区的运行时常量池。</p>
+<p>运行时常量池具有动态性，即不仅仅可以存放编译期产生的常量，在运行期间的常量也可以放入池中。这种特性在代码被利用的较多的就是String类的intern()方法</p>
+<hr>
+<h2 id="总结"><a href="#总结" class="headerlink" title="总结"></a>总结</h2><ul>
+<li>线程共享的内存区域：java堆、方法区（包含运行时常量池）</li>
+<li>线程私有的内存区域：程序计数器、jvm stack、本地方法栈</li>
+</ul>
+<p>具体每个模块的具体功能和原理，后面分模块详细学习之后再做总结</p>
 
       
     </div>
+    
+    
+    
 
+    
+
+    
+
+    
+
+    <footer class="post-footer">
+      
+        <div class="post-tags">
+          
+            <a href="/tags/java/" rel="tag"># java</a>
+          
+            <a href="/tags/jvm/" rel="tag"># jvm</a>
+          
+        </div>
+      
+
+      
+      
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/2020/05/11/Kafka%E7%9A%84%E5%8F%AF%E9%9D%A0%E6%80%A7/" rel="next" title="Kafka的可靠性">
+                <i class="fa fa-chevron-left"></i> Kafka的可靠性
+              </a>
+            
+          </div>
+
+          <span class="post-nav-divider"></span>
+
+          <div class="post-nav-prev post-nav-item">
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
   </div>
   
   
   
+  </article>
 
-  
 
+
+    <div class="post-spread">
+      
+    </div>
+  </div>
 
 
           </div>
@@ -338,6 +487,10 @@
 
 
           
+
+  
+
+
 
         </div>
         
@@ -358,8 +511,17 @@
       
 
       
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap">
+            文章目录
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview-wrap">
+            站点概览
+          </li>
+        </ul>
+      
 
-      <section class="site-overview-wrap sidebar-panel sidebar-panel-active">
+      <section class="site-overview-wrap sidebar-panel">
         <div class="site-overview">
           <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
             
@@ -448,6 +610,22 @@
         </div>
       </section>
 
+      
+      <!--noindex-->
+        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+
+            
+              
+            
+
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#总体结构"><span class="nav-number">1.</span> <span class="nav-text">总体结构</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#程序计数器"><span class="nav-number">2.</span> <span class="nav-text">程序计数器</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#java虚拟机栈（jvm-stack）"><span class="nav-number">3.</span> <span class="nav-text">java虚拟机栈（jvm stack）</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#本地方法栈"><span class="nav-number">4.</span> <span class="nav-text">本地方法栈</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#java-堆（GC-Heap）"><span class="nav-number">5.</span> <span class="nav-text">java 堆（GC Heap）</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#方法区"><span class="nav-number">6.</span> <span class="nav-text">方法区</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#运行时常量池"><span class="nav-number">7.</span> <span class="nav-text">运行时常量池</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#总结"><span class="nav-number">8.</span> <span class="nav-text">总结</span></a></li></ol></div>
+            
+
+          </div>
+        </section>
+      <!--/noindex-->
       
 
       
@@ -619,6 +797,10 @@ show_date_time();
 
 
   
+  <script type="text/javascript" src="/js/src/scrollspy.js?v=5.1.4"></script>
+<script type="text/javascript" src="/js/src/post-details.js?v=5.1.4"></script>
+
+
 
   
 
