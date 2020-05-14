@@ -6,7 +6,7 @@
   <link href="/atom.xml" rel="self"/>
   
   <link href="http://yoursite.com/"/>
-  <updated>2020-05-13T15:58:36.240Z</updated>
+  <updated>2020-05-14T16:26:01.172Z</updated>
   <id>http://yoursite.com/</id>
   
   <author>
@@ -15,6 +15,35 @@
   </author>
   
   <generator uri="https://hexo.io/">Hexo</generator>
+  
+  <entry>
+    <title>java对象的产生</title>
+    <link href="http://yoursite.com/2020/05/15/java%E5%AF%B9%E8%B1%A1%E7%9A%84%E4%BA%A7%E7%94%9F/"/>
+    <id>http://yoursite.com/2020/05/15/java%E5%AF%B9%E8%B1%A1%E7%9A%84%E4%BA%A7%E7%94%9F/</id>
+    <published>2020-05-14T16:25:00.000Z</published>
+    <updated>2020-05-14T16:26:01.172Z</updated>
+    
+    <content type="html"><![CDATA[<h2 id="提出问题"><a href="#提出问题" class="headerlink" title="提出问题"></a>提出问题</h2><p>在java的世界中，我们频繁的会使用对象。创建一个对象对我们而言，就是一行代码：</p><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">User user &#x3D; new User(&quot;hello world&quot;);</span><br></pre></td></tr></table></figure><p>在这行代码的背后，jvm都做了哪些工作呢？学习总结下。</p><h2 id="对象创建过程"><a href="#对象创建过程" class="headerlink" title="对象创建过程"></a>对象创建过程</h2><p>当jvm在执行字节码指令的时候，遇到一条字节码new指令的时候，做以如图所示的以下工作：<br><img src="https://img-blog.csdnimg.cn/20200515002143342.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L2NzYTEyMQ==,size_16,color_FFFFFF,t_70" alt="在这里插入图片描述"></p><h3 id="检查常量池"><a href="#检查常量池" class="headerlink" title="检查常量池"></a>检查常量池</h3><p>先去检查下这个指定的参数在常量池中是否可以定位到一个类的符号引用，并且要去检查这个符号引用所代表的类是否已经被加载、解析和初始化过。有的话，就直接引用；没有的话就要执行下一步。</p><h3 id="执行类加载"><a href="#执行类加载" class="headerlink" title="执行类加载"></a>执行类加载</h3><p>类加载过程细节后面填坑，这块比较复杂。</p><h3 id="给对象分配内存"><a href="#给对象分配内存" class="headerlink" title="给对象分配内存"></a>给对象分配内存</h3><p>类加载检查之后，虚拟机要给新生成的对象分配内存。<strong>对象所需内存大小在类加载完成后就完全确定了</strong>  如何确定的后面再填坑。</p><p>给对象分配内存，就是在java堆中把一块确定大小的内存区域划分出来。分配的方式有2种：</p><ul><li><strong>指针碰撞</strong>：假设java堆中的内存都是绝对规整的，所有使用过的或者被分配的在一遍，空闲内存放在另一边，中间放一个指针作为分界点。那本次的内存分配就是把指针从当前位置向空闲的方向移动一段与对象大小相等的距离，这种方式叫做指针碰撞</li><li><strong>空闲列表</strong>：如果java堆不是规整的，已被使用的内存和未被分配的空闲内存相互交错放在一起，那就没有办法使用指针碰撞的方式了，就需要维护一个列表，记录哪些内存区域是可用的。在分配的时候从可用的区域中找到一块足够大的划分给当前对象实例，并更新列表记录，这种方式叫做空闲列表</li></ul><p>在划分可用空间给对象的时候，需要考虑一个问题：创建对象、给对象分配内存在虚拟机中是非常高频的行为，仅仅修改指针的位置，在并发情况下也不是线程安全的操作，可能出现在给A对象分配的内存，指针还没有修改，B对象也在基于原来的指针分配内存的情况。解决这种问题就有2种方案：</p><ul><li>采用CAS+失败重试来保证更新操作的原子性</li><li>将内存分配的动作按照线程划分到不同的空间中进行，即每个线程提前先分配到一小块内存，称为<strong>本地线程分配缓冲</strong>（TLAB），哪个线程要分配内存，就在自己的分配缓冲中进行，本地缓冲用完了再采用方案1同步锁定分配</li></ul><h3 id="初始化分配的内存空间"><a href="#初始化分配的内存空间" class="headerlink" title="初始化分配的内存空间"></a>初始化分配的内存空间</h3><p>jvm将分配到的内存空间都初始化成零值，如果采用了TLAB的方案，这一步可以提前至TLAB分配时进行。这步操作<strong>保证对象的实例字段在java代码中可以不赋初始值就能直接使用</strong>。</p><h3 id="设置对象"><a href="#设置对象" class="headerlink" title="设置对象"></a>设置对象</h3><p>jvm需要对对象进行必要的设置，比如对象是哪个类的实例、如何找到类的元信息、对象的哈希码、对象的GC分代年龄等。这些信息都存放在对象的对象头中。具体的设置后面详细介绍</p><h3 id="对象构造"><a href="#对象构造" class="headerlink" title="对象构造"></a>对象构造</h3><p>上面的所有流程完成之后，一个新的对象就产生了。接下来，就要开始对这个新的对象<strong>进行构造</strong>了。只有按照业务场景给对象初始化，一个真正的对象才算是构造完成。</p><h2 id="总结"><a href="#总结" class="headerlink" title="总结"></a>总结</h2><p>一行代码，jvm就帮我们做了这么多事情。<br>还有很多的细节没有一一描述，后面每个步骤深挖的时候再完善。</p>]]></content>
+    
+    <summary type="html">
+    
+      
+      
+        &lt;h2 id=&quot;提出问题&quot;&gt;&lt;a href=&quot;#提出问题&quot; class=&quot;headerlink&quot; title=&quot;提出问题&quot;&gt;&lt;/a&gt;提出问题&lt;/h2&gt;&lt;p&gt;在java的世界中，我们频繁的会使用对象。创建一个对象对我们而言，就是一行代码：&lt;/p&gt;
+&lt;figure class=&quot;hi
+      
+    
+    </summary>
+    
+    
+      <category term="java" scheme="http://yoursite.com/categories/java/"/>
+    
+    
+      <category term="java" scheme="http://yoursite.com/tags/java/"/>
+    
+      <category term="jvm" scheme="http://yoursite.com/tags/jvm/"/>
+    
+  </entry>
   
   <entry>
     <title>java内存模型概述</title>
