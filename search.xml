@@ -527,4 +527,31 @@ admin.site.register(MyUser, MyUserAdmin)</code></pre><p>```</p>
         <tag>jvm</tag>
       </tags>
   </entry>
+  <entry>
+    <title>对象的内存布局</title>
+    <url>/2020/05/20/%E5%AF%B9%E8%B1%A1%E7%9A%84%E5%86%85%E5%AD%98%E5%B8%83%E5%B1%80/</url>
+    <content><![CDATA[<p>今天是520，不管有没有对象，都要学习呀</p>
+<p>在我们经常使用的HotSpot虚拟机中，对象在堆内存中的布局可以分为3个部分：</p>
+<ul>
+<li>对象头</li>
+<li>实例数据</li>
+<li>对齐填充</li>
+</ul>
+<h2 id="对象头"><a href="#对象头" class="headerlink" title="对象头"></a>对象头</h2><p>对象的对象头包含2类信息：</p>
+<h5 id="用于存储对象自身的运行时数据"><a href="#用于存储对象自身的运行时数据" class="headerlink" title="用于存储对象自身的运行时数据"></a>用于存储对象自身的运行时数据</h5><p>如哈希码、GC分代年龄、锁状态标志、线程持有的锁、偏向线程的id、偏向时间戳等。这些数据的长度在32位和64位虚拟机中，分别占用32bit和64bit，官方称之为”<strong>Mark Word</strong>“</p>
+<p>mark word如图所示：<br><img src="https://img-blog.csdnimg.cn/20200520233412749.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L2NzYTEyMQ==,size_16,color_FFFFFF,t_70" alt="图片替换文本" width="400" height="100" align="bottom" /></p>
+<h5 id="类型指针"><a href="#类型指针" class="headerlink" title="类型指针"></a>类型指针</h5><p>即对象指向它的类型元数据的指针，jvm通过这个指针确认该对象是哪个类的实例</p>
+<h2 id="实例数据"><a href="#实例数据" class="headerlink" title="实例数据"></a>实例数据</h2><p>对象真正存储的有效信息，即我们在程序代码中定义的各种字段内容，无论是从父类集成来的，还是子类自有的都必须记录下来。</p>
+<p>存储的顺序受<strong>jvm的分配策略参数</strong>和<strong>字段在java源码中的定义顺序</strong>的影响<br>HotSpot默认的分配顺序是longs/doubles、ints、shorts/chars、bytes/booleans、opps，可以看到相同宽度的字段会被分配到一起存放，在满足这个条件的前提下，<strong>父类的字段放在子类的前面</strong></p>
+<h2 id="对齐填充"><a href="#对齐填充" class="headerlink" title="对齐填充"></a>对齐填充</h2><p>这部分不是必然的，也没有特殊的含义，仅仅是占位的作用。<br>由于HotSpot jvm的内存管理系统要求对象的起始位置必须是8字节的倍数，也就是说<strong>任何对象的大小都必须是8字节的倍数</strong>。</p>
+<p>从上面可以看到，对象的头部已经是8字节的倍数了，所以如果对象实例没有对齐的，就要通过对齐填充了。</p>
+]]></content>
+      <categories>
+        <category>java</category>
+      </categories>
+      <tags>
+        <tag>java</tag>
+        <tag>jvm</tag>
+      </tags>
+  </entry>
 </search>
