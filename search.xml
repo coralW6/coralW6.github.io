@@ -327,7 +327,7 @@ admin.site.register(MyUser, MyUserAdmin)</code></pre><p>```</p>
       </tags>
   </entry>
   <entry>
-    <title>java内存模型概述</title>
+    <title>jvm学习笔记1--内存模型</title>
     <url>/2020/05/13/java%E5%86%85%E5%AD%98%E6%A8%A1%E5%9E%8B%E6%A6%82%E8%BF%B0/</url>
     <content><![CDATA[<h2 id="总体结构"><a href="#总体结构" class="headerlink" title="总体结构"></a>总体结构</h2><p>Java虚拟机在执行Java程序的过程中会把它所管理的内存划分为若干个不同的数据区域。这些区域有各自的用途，以及创建和销毁的时间，有的区域随着虚拟机进程的启动而一直存在，有些区域则是依赖用户线程的启动和结束而建立和销毁。如下图所示：</p>
 <img src="https://img-blog.csdnimg.cn/20200512233118835.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L2NzYTEyMQ==,size_5,color_FFFFFF,t_70#pic_center" alt="图片替换文本" width="400" height="300" align="bottom" />
@@ -495,7 +495,7 @@ admin.site.register(MyUser, MyUserAdmin)</code></pre><p>```</p>
       </tags>
   </entry>
   <entry>
-    <title>java对象的产生</title>
+    <title>jvm学习笔记2--对象的产生</title>
     <url>/2020/05/15/java%E5%AF%B9%E8%B1%A1%E7%9A%84%E4%BA%A7%E7%94%9F/</url>
     <content><![CDATA[<h2 id="提出问题"><a href="#提出问题" class="headerlink" title="提出问题"></a>提出问题</h2><p>在java的世界中，我们频繁的会使用对象。创建一个对象对我们而言，就是一行代码：</p>
 <figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">User user &#x3D; new User(&quot;hello world&quot;);</span><br></pre></td></tr></table></figure>
@@ -528,7 +528,7 @@ admin.site.register(MyUser, MyUserAdmin)</code></pre><p>```</p>
       </tags>
   </entry>
   <entry>
-    <title>对象的内存布局</title>
+    <title>jvm学习笔记3--对象的内存布局</title>
     <url>/2020/05/20/%E5%AF%B9%E8%B1%A1%E7%9A%84%E5%86%85%E5%AD%98%E5%B8%83%E5%B1%80/</url>
     <content><![CDATA[<p>今天是520，不管有没有对象，都要学习呀</p>
 <p>在我们经常使用的HotSpot虚拟机中，对象在堆内存中的布局可以分为3个部分：</p>
@@ -545,6 +545,64 @@ admin.site.register(MyUser, MyUserAdmin)</code></pre><p>```</p>
 <p>存储的顺序受<strong>jvm的分配策略参数</strong>和<strong>字段在java源码中的定义顺序</strong>的影响<br>HotSpot默认的分配顺序是longs/doubles、ints、shorts/chars、bytes/booleans、opps，可以看到相同宽度的字段会被分配到一起存放，在满足这个条件的前提下，<strong>父类的字段放在子类的前面</strong></p>
 <h2 id="对齐填充"><a href="#对齐填充" class="headerlink" title="对齐填充"></a>对齐填充</h2><p>这部分不是必然的，也没有特殊的含义，仅仅是占位的作用。<br>由于HotSpot jvm的内存管理系统要求对象的起始位置必须是8字节的倍数，也就是说<strong>任何对象的大小都必须是8字节的倍数</strong>。</p>
 <p>从上面可以看到，对象的头部已经是8字节的倍数了，所以如果对象实例没有对齐的，就要通过对齐填充了。</p>
+]]></content>
+      <categories>
+        <category>java</category>
+      </categories>
+      <tags>
+        <tag>java</tag>
+        <tag>jvm</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>jvm学习笔记4--对象和方法区的回收判别</title>
+    <url>/2020/06/03/jvm%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B04-%E5%AF%B9%E8%B1%A1%E5%92%8C%E6%96%B9%E6%B3%95%E5%8C%BA%E7%9A%84%E5%9B%9E%E6%94%B6%E5%88%A4%E5%88%AB/</url>
+    <content><![CDATA[<h2 id="复习"><a href="#复习" class="headerlink" title="复习"></a>复习</h2><p>前面有提到jvm的内存模型，我们知道，程序计数器、虚拟机栈和本地方法栈是和线程<strong>同生共死</strong>的，每个栈帧的大小在类结构确定下来之后就都是已知的。因此这几个区域的内存分配和回收都是有确定性的。</p>
+<p>然而，java堆和方法区却有着显著的不确定性。只有程序在运行期间，我们才知道具体要创建哪些对象，创建多少对象，分配多少内存。这部分的内存分配和回收都是动态的。所以垃圾回收器所关心的就是这部分内存的管理。</p>
+<p>复习完之前的内容，我们就知道了垃圾回收器的关心重点在于<strong>堆内存的对象管理</strong>和<strong>方法区管理</strong>。</p>
+<p>在垃圾回收器回收内存之前，要做的第一件事，就是判别哪些对象实例需要被回收？换句话说，就是要判断哪些对象”存活“，哪些对象已经“死去”。</p>
+<p>死去就是说对象不可能被任何途径所使用</p>
+<hr>
+<h2 id="对象的生死判别"><a href="#对象的生死判别" class="headerlink" title="对象的生死判别"></a>对象的生死判别</h2><h4 id="引用计数法"><a href="#引用计数法" class="headerlink" title="引用计数法"></a>引用计数法</h4><p>引用计数法是一种常见的判别对象是否存活的方式，使用的方式是给每一个对象添加一个引用计数器。</p>
+<p>当有一个地方引用它时，计数器加1；当引用失效时，计数器减1。<br>任何时候引用计数器为0就表示这个对象不能再被使用。</p>
+<p>优点：原理简单，判定效率高<br>缺点：需要大量额外的处理才能保证正确的工作，如对象之间循环相互引用<br>语言：Python、微软的COM等在使用该方式。<strong>jvm没有使用该方式</strong>。</p>
+<h4 id="可达性分析算法"><a href="#可达性分析算法" class="headerlink" title="可达性分析算法"></a>可达性分析算法</h4><p>当前主流的语言大多采用该方法来判断对象的“生死”。</p>
+<p>基本思路：通过一系列被称为“GC Roots”的根对象作为起始节点集，从这些节点开始，根据引用关系向下搜索，搜索过程中走过的路被称为“引用链”，如果某个对象到“GC Roots”没有任何的引用链相连，或者说从根节点到该对象不可达时，说明该对象是不可能再被使用的。如图所示：</p>
+<img src="https://img-blog.csdnimg.cn/20200603000129927.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L2NzYTEyMQ==" alt="图片替换文本" width="500" height="300" align="bottom" />
+
+<p>图中object5、object6、object7虽然相互有关联，但是他们到“GC Roots”是不可达的，所以会被判定为可回收的对象。</p>
+<p>再java技术体系中，固定可作为“GC Roots”的对象包括以下几种：</p>
+<ul>
+<li>java虚拟机栈中本地变量表中引用的对象，比如各个线程中被调用的方法堆栈中使用到的参数、局部变量和临时变量等；</li>
+<li>在方法区中类静态属性引用的对象；</li>
+<li>方法区中常量引用的对象；</li>
+<li>本地方法栈中JNI（native方法）引用的对象；</li>
+<li>虚拟机内部的引用，如基础数据类型对应的class对象，一些常驻的异常对象，还有系统类加载器等；</li>
+<li>所有被同步所只有的对象；</li>
+<li>反应java虚拟机内部情况的JMXBean、JVMNI中注册的回调、本地代码缓存等；</li>
+</ul>
+<p>除了以上的这些，不同的垃圾回收器根据回收的区域不同，会临时加一些对象进去，共同构成完整的“GC Roots”集合</p>
+<hr>
+<h2 id="引用"><a href="#引用" class="headerlink" title="引用"></a>引用</h2><p>无论是通过引用计数法，还是判断对象的引用链可达，都要根据“引用”来判断，所以都和“引用”脱离不了关系。</p>
+<p>比如有这样一个场景，我们希望在内存足够的时候，对象可以保留在内存中；当在进行垃圾回收之后内存依然紧张时，就可以抛弃这些对象——很多的系统缓存功能否符合这样的场景。</p>
+<p>根据场景，我们将引用分为：<strong>强引用、软引用、弱引用、虚引用</strong>四类，这4中类型的引用强度依次减弱。</p>
+<h4 id="强引用"><a href="#强引用" class="headerlink" title="强引用"></a>强引用</h4><p>即类似于  </p>
+<figure class="highlight java"><table><tr><td class="code"><pre><span class="line">Object obj = <span class="keyword">new</span> Object();</span><br></pre></td></tr></table></figure>
+<p>只要强引用关系还存在，垃圾回收器永远不会回收掉被引用的对象。</p>
+<h4 id="软引用"><a href="#软引用" class="headerlink" title="软引用"></a>软引用</h4><p>用来描述一些还有用，但非必须的对象。只要被软引用关联的对象，在系统将要发生内存溢出异常之前，会把这些对象列为回收范围进行第二次回收，如果这次回收还没有足够的内存，才会抛出内存溢出异常。</p>
+<h4 id="弱引用"><a href="#弱引用" class="headerlink" title="弱引用"></a>弱引用</h4><p>也是用来描述非必须的对象，强度比软引用更弱一些，被弱引用关联的对象，只能存活到下一次垃圾回收发生为止。当垃圾回收器开始工作的时候，无论当前内存是否足够，都会回收掉只被弱引用关联的对象</p>
+<h4 id="虚引用"><a href="#虚引用" class="headerlink" title="虚引用"></a>虚引用</h4><p>是最弱的一种引用关系，一个对象是否有虚引用存在，完全不会影响其生存时间，也无法通过虚引用获取一个对象实例。为一个对象设立虚引用关联的唯一目的就是在这个对象被回收时会收到一个<strong>系统通知</strong></p>
+<hr>
+<h2 id="回收方法区"><a href="#回收方法区" class="headerlink" title="回收方法区"></a>回收方法区</h2><p>虽然在java堆中的一次回收可以回收70%-99%的内存空间，方法区的回收成果远低于此，但是在一些虚拟机中也会有方法区的回收设计。</p>
+<p>方法区的垃圾收集主要回收2部分内容：废弃的常量和不再使用的类型。回收废弃常量的方式和java堆中的回收方式类似。</p>
+<p>比如常量池中的一个字符串“java”，当前系统中没有一个字符串对象的值是“java”，换句话说，已经没有任何字符串对象引用常量池中的“java”常量，且虚拟机中也没有其他地方引用这个常量。这时候如果发生垃圾回收，该常量就会被清理出常量池。常量池中的其他类型、接口、方法、字段的符号引用都是类似。</p>
+<p>判断一个常量是否废弃比较简单，但是判断一个类型是否属于“不再被使用的类”条件就比较苛刻了。需要同时满足3个条件：</p>
+<ul>
+<li>该类的所有实例都已经被回收，也就是说jav堆中不存在该类及任何派生类的实例</li>
+<li>加载该类的类加载器已经被回收</li>
+<li>该类对应的java.lang.Class对象没有在任何地方被引用，无法在任何地方通过反射访问该类的方法。</li>
+</ul>
+<p>java虚拟机允许对满足以上3个条件的无用类进行回收，但是<strong>并不是和对象一样，没有引用了就必然回收</strong>。</p>
 ]]></content>
       <categories>
         <category>java</category>
