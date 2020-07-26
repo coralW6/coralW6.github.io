@@ -666,7 +666,7 @@ admin.site.register(MyUser, MyUserAdmin)</code></pre><p>```</p>
       </tags>
   </entry>
   <entry>
-    <title>jvm学习笔记6-HotSpot的算法细节实现</title>
+    <title>jvm学习笔记6--HotSpot的算法细节实现</title>
     <url>/2020/07/26/jvm%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B06-HotSpot%E7%9A%84%E7%AE%97%E6%B3%95%E7%BB%86%E8%8A%82%E5%AE%9E%E7%8E%B0/</url>
     <content><![CDATA[<p>前面学习了怎么判别要回收的对象，以及垃圾回收的一些方式、标记-清除算法、标记-复制算法、标记-整理算法。现在看看我们每天使用的HotSpot虚拟机中算法的细节实现。</p>
 <h2 id="根节点枚举"><a href="#根节点枚举" class="headerlink" title="根节点枚举"></a>根节点枚举</h2><p>前面已经学习到可作为GC Roots的一些变量或者属性，但是实际上在查找过程中要做到高效也是很困难的，要逐个检查以这里为起源的引用肯定要消耗不少时间。</p>
