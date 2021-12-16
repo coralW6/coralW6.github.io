@@ -6,7 +6,7 @@
   <link href="/atom.xml" rel="self"/>
   
   <link href="http://yoursite.com/"/>
-  <updated>2020-07-26T11:01:22.897Z</updated>
+  <updated>2021-12-15T11:49:26.762Z</updated>
   <id>http://yoursite.com/</id>
   
   <author>
@@ -15,6 +15,33 @@
   </author>
   
   <generator uri="https://hexo.io/">Hexo</generator>
+  
+  <entry>
+    <title>随想1</title>
+    <link href="http://yoursite.com/2021/12/15/%E9%9A%8F%E6%83%B31/"/>
+    <id>http://yoursite.com/2021/12/15/%E9%9A%8F%E6%83%B31/</id>
+    <published>2021-12-15T11:47:00.000Z</published>
+    <updated>2021-12-15T11:49:26.762Z</updated>
+    
+    <content type="html"><![CDATA[<p>关于底层逻辑<br>事实和观点</p>]]></content>
+    
+    <summary type="html">
+    
+      
+      
+        &lt;p&gt;关于底层逻辑&lt;br&gt;事实和观点&lt;/p&gt;
+
+      
+    
+    </summary>
+    
+    
+      <category term="个人随想" scheme="http://yoursite.com/categories/%E4%B8%AA%E4%BA%BA%E9%9A%8F%E6%83%B3/"/>
+    
+    
+      <category term="个人随想" scheme="http://yoursite.com/tags/%E4%B8%AA%E4%BA%BA%E9%9A%8F%E6%83%B3/"/>
+    
+  </entry>
   
   <entry>
     <title>jvm学习笔记6--HotSpot的算法细节实现</title>
