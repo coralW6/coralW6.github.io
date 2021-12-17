@@ -148,47 +148,6 @@ admin.site.register(MyUser, MyUserAdmin)</code></pre><p>```</p>
       </tags>
   </entry>
   <entry>
-    <title>jvm学习笔记1--内存模型</title>
-    <url>/2020/05/13/java%E5%86%85%E5%AD%98%E6%A8%A1%E5%9E%8B%E6%A6%82%E8%BF%B0/</url>
-    <content><![CDATA[<h2 id="总体结构"><a href="#总体结构" class="headerlink" title="总体结构"></a>总体结构</h2><p>Java虚拟机在执行Java程序的过程中会把它所管理的内存划分为若干个不同的数据区域。这些区域有各自的用途，以及创建和销毁的时间，有的区域随着虚拟机进程的启动而一直存在，有些区域则是依赖用户线程的启动和结束而建立和销毁。如下图所示：</p>
-<img src="https://img-blog.csdnimg.cn/20200512233118835.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L2NzYTEyMQ==,size_5,color_FFFFFF,t_70#pic_center" alt="图片替换文本" width="400" height="300" align="bottom" />
-
-
-<hr>
-<h2 id="程序计数器"><a href="#程序计数器" class="headerlink" title="程序计数器"></a>程序计数器</h2><p>程序计数器占用整个数据区较小的一块空间，可以看做是当前线程所执行的字节码的行号指示器。在虚拟机的模型中，程序计数器的作用就是字节码解释器通过改变计数器的值来选取下一条要执行的指令。在代码层面上，<strong>我们经常用到的分支（if…else…）、循环、跳转、异常处理、线程恢复等基础功能都依赖这个计数器完成</strong>。</p>
-<p>在java虚拟机中的多线程是通过线程轮流切换，分配处理器的执行时间来实现的。在任何一个确定的时刻，对于一个处理器（多核的机器就是其中的一个核），都只会执行一个线程中的一个指令，当该线程的cpu时间片用完需要让出计算资源时候，需要保存该线程当前执行位置，以便下次能够从正确的位置恢复执行，因此每个线程都有独立的程序计数器，且相互独立存储，互不影响。所以程序计数器是<strong>每个线程的私有区域</strong>。</p>
-<p>如果线程执行的是一个java方法，计数器记录的是程序正在执行的字节码指令所在的位置，如果执行的是一个native方法，计数器的值是空值</p>
-<hr>
-<h2 id="java虚拟机栈（jvm-stack）"><a href="#java虚拟机栈（jvm-stack）" class="headerlink" title="java虚拟机栈（jvm stack）"></a>java虚拟机栈（jvm stack）</h2><p>jvm stack也是<strong>线程私有</strong>的，生命周期和线程一样，用来描述java方法执行时候的线程内存模型。</p>
-<p>每个方法在执行的时候都会同步创建一个栈帧（stack frame）用来存储方法内部的局部变量表、操作数栈、动态链接、方法出口等信息。每个方法被调用知道执行完毕的过程，就是一个栈帧在jvm stack 入栈到出栈的过程</p>
-<hr>
-<h2 id="本地方法栈"><a href="#本地方法栈" class="headerlink" title="本地方法栈"></a>本地方法栈</h2><p>本地方法栈和jvm stack的作用类似。区别在于，jvm stack为虚拟机执行java方法（字节码）服务，本地方法栈则是为虚拟机执行本地方法服务，也是<strong>线程私有</strong>的</p>
-<hr>
-<h2 id="java-堆（GC-Heap）"><a href="#java-堆（GC-Heap）" class="headerlink" title="java 堆（GC Heap）"></a>java 堆（GC Heap）</h2><p>从java应用程序的角度来说，jav堆是java应用程序所管理的最大的一块内存，<strong>被所有的线程共享</strong> ，在虚拟机启动时创建。java堆的<strong>唯一</strong>作用就是<strong>存放对象实例</strong>，java的世界里，几乎所有的对象实例都在这里分配内存。</p>
-<p><strong>java堆是垃圾回收器管理的一块区域</strong>。</p>
-<p>从垃圾回收的角度看，现代的垃圾回收器都是采用的分代回收理论设计的，就是我们熟悉的<strong>新生代、老年代、永久代、Eden空间、From Survivor空间、To Survivor空间等</strong>名词。在G1回收器出现为界限，之前的回收器，尤其是业界绝对主流的HotSpot虚拟机，都是采用这种经典分代的设计思想；但是到了如今，垃圾回收技术已不可同日而语，HotSpot中也出现了不采用分代设计的垃圾回收器，所以不能再按照上面的经典分代方式看待了。</p>
-<p>从内存分配的角度看，所有线程共享的java堆可以划分出多个线程私有的分配缓冲区，有利于提升对象分配时的效率。但是无论什么角度，何种划分，都不能改变java堆存储内容的特点：<strong>存储的都是对象的实例</strong></p>
-<hr>
-<h2 id="方法区"><a href="#方法区" class="headerlink" title="方法区"></a>方法区</h2><p>方法区和java堆一样，是<strong>线程共享</strong>的内存区域，用于存储被虚拟机加载的<strong>类型信息、常量、静态变量、及时编译器编译后的代码缓存</strong>等。方法区还有一个别名叫做<strong>非堆</strong>，目的就是要和java堆做区分。</p>
-<hr>
-<h2 id="运行时常量池"><a href="#运行时常量池" class="headerlink" title="运行时常量池"></a>运行时常量池</h2><p>运行时常量池属于方法区的一部分，class文件中除了类的版本、字段、方法、接口等描述信息之外，还有一项信息是<strong>常量池表</strong>，用来<strong>存放编译期间生成的各种字面量和符号引用</strong>，这部分内容将在类加载后存放在方法区的运行时常量池。</p>
-<p>运行时常量池具有动态性，即不仅仅可以存放编译期产生的常量，在运行期间的常量也可以放入池中。这种特性在代码被利用的较多的就是String类的intern()方法</p>
-<hr>
-<h2 id="总结"><a href="#总结" class="headerlink" title="总结"></a>总结</h2><ul>
-<li>线程共享的内存区域：java堆、方法区（包含运行时常量池）</li>
-<li>线程私有的内存区域：程序计数器、jvm stack、本地方法栈</li>
-</ul>
-<p>具体每个模块的具体功能和原理，后面分模块详细学习之后再做总结</p>
-]]></content>
-      <categories>
-        <category>java</category>
-      </categories>
-      <tags>
-        <tag>java</tag>
-        <tag>jvm</tag>
-      </tags>
-  </entry>
-  <entry>
     <title>flume1.8在线上业务中的使用和总结</title>
     <url>/2020/05/11/flume1-8%E5%9C%A8%E7%BA%BF%E4%B8%8A%E4%B8%9A%E5%8A%A1%E4%B8%AD%E7%9A%84%E4%BD%BF%E7%94%A8%E5%92%8C%E6%80%BB%E7%BB%93/</url>
     <content><![CDATA[<h4 id="什么是flume？"><a href="#什么是flume？" class="headerlink" title="什么是flume？"></a>什么是flume？</h4><ul>
@@ -273,6 +232,47 @@ admin.site.register(MyUser, MyUserAdmin)</code></pre><p>```</p>
       </categories>
       <tags>
         <tag>kafka</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>jvm学习笔记1--内存模型</title>
+    <url>/2020/05/13/java%E5%86%85%E5%AD%98%E6%A8%A1%E5%9E%8B%E6%A6%82%E8%BF%B0/</url>
+    <content><![CDATA[<h2 id="总体结构"><a href="#总体结构" class="headerlink" title="总体结构"></a>总体结构</h2><p>Java虚拟机在执行Java程序的过程中会把它所管理的内存划分为若干个不同的数据区域。这些区域有各自的用途，以及创建和销毁的时间，有的区域随着虚拟机进程的启动而一直存在，有些区域则是依赖用户线程的启动和结束而建立和销毁。如下图所示：</p>
+<img src="https://img-blog.csdnimg.cn/20200512233118835.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L2NzYTEyMQ==,size_5,color_FFFFFF,t_70#pic_center" alt="图片替换文本" width="400" height="300" align="bottom" />
+
+
+<hr>
+<h2 id="程序计数器"><a href="#程序计数器" class="headerlink" title="程序计数器"></a>程序计数器</h2><p>程序计数器占用整个数据区较小的一块空间，可以看做是当前线程所执行的字节码的行号指示器。在虚拟机的模型中，程序计数器的作用就是字节码解释器通过改变计数器的值来选取下一条要执行的指令。在代码层面上，<strong>我们经常用到的分支（if…else…）、循环、跳转、异常处理、线程恢复等基础功能都依赖这个计数器完成</strong>。</p>
+<p>在java虚拟机中的多线程是通过线程轮流切换，分配处理器的执行时间来实现的。在任何一个确定的时刻，对于一个处理器（多核的机器就是其中的一个核），都只会执行一个线程中的一个指令，当该线程的cpu时间片用完需要让出计算资源时候，需要保存该线程当前执行位置，以便下次能够从正确的位置恢复执行，因此每个线程都有独立的程序计数器，且相互独立存储，互不影响。所以程序计数器是<strong>每个线程的私有区域</strong>。</p>
+<p>如果线程执行的是一个java方法，计数器记录的是程序正在执行的字节码指令所在的位置，如果执行的是一个native方法，计数器的值是空值</p>
+<hr>
+<h2 id="java虚拟机栈（jvm-stack）"><a href="#java虚拟机栈（jvm-stack）" class="headerlink" title="java虚拟机栈（jvm stack）"></a>java虚拟机栈（jvm stack）</h2><p>jvm stack也是<strong>线程私有</strong>的，生命周期和线程一样，用来描述java方法执行时候的线程内存模型。</p>
+<p>每个方法在执行的时候都会同步创建一个栈帧（stack frame）用来存储方法内部的局部变量表、操作数栈、动态链接、方法出口等信息。每个方法被调用知道执行完毕的过程，就是一个栈帧在jvm stack 入栈到出栈的过程</p>
+<hr>
+<h2 id="本地方法栈"><a href="#本地方法栈" class="headerlink" title="本地方法栈"></a>本地方法栈</h2><p>本地方法栈和jvm stack的作用类似。区别在于，jvm stack为虚拟机执行java方法（字节码）服务，本地方法栈则是为虚拟机执行本地方法服务，也是<strong>线程私有</strong>的</p>
+<hr>
+<h2 id="java-堆（GC-Heap）"><a href="#java-堆（GC-Heap）" class="headerlink" title="java 堆（GC Heap）"></a>java 堆（GC Heap）</h2><p>从java应用程序的角度来说，jav堆是java应用程序所管理的最大的一块内存，<strong>被所有的线程共享</strong> ，在虚拟机启动时创建。java堆的<strong>唯一</strong>作用就是<strong>存放对象实例</strong>，java的世界里，几乎所有的对象实例都在这里分配内存。</p>
+<p><strong>java堆是垃圾回收器管理的一块区域</strong>。</p>
+<p>从垃圾回收的角度看，现代的垃圾回收器都是采用的分代回收理论设计的，就是我们熟悉的<strong>新生代、老年代、永久代、Eden空间、From Survivor空间、To Survivor空间等</strong>名词。在G1回收器出现为界限，之前的回收器，尤其是业界绝对主流的HotSpot虚拟机，都是采用这种经典分代的设计思想；但是到了如今，垃圾回收技术已不可同日而语，HotSpot中也出现了不采用分代设计的垃圾回收器，所以不能再按照上面的经典分代方式看待了。</p>
+<p>从内存分配的角度看，所有线程共享的java堆可以划分出多个线程私有的分配缓冲区，有利于提升对象分配时的效率。但是无论什么角度，何种划分，都不能改变java堆存储内容的特点：<strong>存储的都是对象的实例</strong></p>
+<hr>
+<h2 id="方法区"><a href="#方法区" class="headerlink" title="方法区"></a>方法区</h2><p>方法区和java堆一样，是<strong>线程共享</strong>的内存区域，用于存储被虚拟机加载的<strong>类型信息、常量、静态变量、及时编译器编译后的代码缓存</strong>等。方法区还有一个别名叫做<strong>非堆</strong>，目的就是要和java堆做区分。</p>
+<hr>
+<h2 id="运行时常量池"><a href="#运行时常量池" class="headerlink" title="运行时常量池"></a>运行时常量池</h2><p>运行时常量池属于方法区的一部分，class文件中除了类的版本、字段、方法、接口等描述信息之外，还有一项信息是<strong>常量池表</strong>，用来<strong>存放编译期间生成的各种字面量和符号引用</strong>，这部分内容将在类加载后存放在方法区的运行时常量池。</p>
+<p>运行时常量池具有动态性，即不仅仅可以存放编译期产生的常量，在运行期间的常量也可以放入池中。这种特性在代码被利用的较多的就是String类的intern()方法</p>
+<hr>
+<h2 id="总结"><a href="#总结" class="headerlink" title="总结"></a>总结</h2><ul>
+<li>线程共享的内存区域：java堆、方法区（包含运行时常量池）</li>
+<li>线程私有的内存区域：程序计数器、jvm stack、本地方法栈</li>
+</ul>
+<p>具体每个模块的具体功能和原理，后面分模块详细学习之后再做总结</p>
+]]></content>
+      <categories>
+        <category>java</category>
+      </categories>
+      <tags>
+        <tag>java</tag>
+        <tag>jvm</tag>
       </tags>
   </entry>
   <entry>
@@ -368,6 +368,39 @@ admin.site.register(MyUser, MyUserAdmin)</code></pre><p>```</p>
       </tags>
   </entry>
   <entry>
+    <title>jvm学习笔记2--对象的产生</title>
+    <url>/2020/05/15/java%E5%AF%B9%E8%B1%A1%E7%9A%84%E4%BA%A7%E7%94%9F/</url>
+    <content><![CDATA[<h2 id="提出问题"><a href="#提出问题" class="headerlink" title="提出问题"></a>提出问题</h2><p>在java的世界中，我们频繁的会使用对象。创建一个对象对我们而言，就是一行代码：</p>
+<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">User user &#x3D; new User(&quot;hello world&quot;);</span><br></pre></td></tr></table></figure>
+<p>在这行代码的背后，jvm都做了哪些工作呢？学习总结下。</p>
+<h2 id="对象创建过程"><a href="#对象创建过程" class="headerlink" title="对象创建过程"></a>对象创建过程</h2><p>当jvm在执行字节码指令的时候，遇到一条字节码new指令的时候，做以如图所示的以下工作：<br><img src="https://img-blog.csdnimg.cn/20200515002143342.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L2NzYTEyMQ==,size_16,color_FFFFFF,t_70" alt="在这里插入图片描述"></p>
+<h3 id="检查常量池"><a href="#检查常量池" class="headerlink" title="检查常量池"></a>检查常量池</h3><p>先去检查下这个指定的参数在常量池中是否可以定位到一个类的符号引用，并且要去检查这个符号引用所代表的类是否已经被加载、解析和初始化过。有的话，就直接引用；没有的话就要执行下一步。</p>
+<h3 id="执行类加载"><a href="#执行类加载" class="headerlink" title="执行类加载"></a>执行类加载</h3><p>类加载过程细节后面填坑，这块比较复杂。</p>
+<h3 id="给对象分配内存"><a href="#给对象分配内存" class="headerlink" title="给对象分配内存"></a>给对象分配内存</h3><p>类加载检查之后，虚拟机要给新生成的对象分配内存。<strong>对象所需内存大小在类加载完成后就完全确定了</strong>  如何确定的后面再填坑。</p>
+<p>给对象分配内存，就是在java堆中把一块确定大小的内存区域划分出来。分配的方式有2种：</p>
+<ul>
+<li><strong>指针碰撞</strong>：假设java堆中的内存都是绝对规整的，所有使用过的或者被分配的在一遍，空闲内存放在另一边，中间放一个指针作为分界点。那本次的内存分配就是把指针从当前位置向空闲的方向移动一段与对象大小相等的距离，这种方式叫做指针碰撞</li>
+<li><strong>空闲列表</strong>：如果java堆不是规整的，已被使用的内存和未被分配的空闲内存相互交错放在一起，那就没有办法使用指针碰撞的方式了，就需要维护一个列表，记录哪些内存区域是可用的。在分配的时候从可用的区域中找到一块足够大的划分给当前对象实例，并更新列表记录，这种方式叫做空闲列表</li>
+</ul>
+<p>在划分可用空间给对象的时候，需要考虑一个问题：创建对象、给对象分配内存在虚拟机中是非常高频的行为，仅仅修改指针的位置，在并发情况下也不是线程安全的操作，可能出现在给A对象分配的内存，指针还没有修改，B对象也在基于原来的指针分配内存的情况。解决这种问题就有2种方案：</p>
+<ul>
+<li>采用CAS+失败重试来保证更新操作的原子性</li>
+<li>将内存分配的动作按照线程划分到不同的空间中进行，即每个线程提前先分配到一小块内存，称为<strong>本地线程分配缓冲</strong>（TLAB），哪个线程要分配内存，就在自己的分配缓冲中进行，本地缓冲用完了再采用方案1同步锁定分配</li>
+</ul>
+<h3 id="初始化分配的内存空间"><a href="#初始化分配的内存空间" class="headerlink" title="初始化分配的内存空间"></a>初始化分配的内存空间</h3><p>jvm将分配到的内存空间都初始化成零值，如果采用了TLAB的方案，这一步可以提前至TLAB分配时进行。这步操作<strong>保证对象的实例字段在java代码中可以不赋初始值就能直接使用</strong>。</p>
+<h3 id="设置对象"><a href="#设置对象" class="headerlink" title="设置对象"></a>设置对象</h3><p>jvm需要对对象进行必要的设置，比如对象是哪个类的实例、如何找到类的元信息、对象的哈希码、对象的GC分代年龄等。这些信息都存放在对象的对象头中。具体的设置后面详细介绍</p>
+<h3 id="对象构造"><a href="#对象构造" class="headerlink" title="对象构造"></a>对象构造</h3><p>上面的所有流程完成之后，一个新的对象就产生了。接下来，就要开始对这个新的对象<strong>进行构造</strong>了。只有按照业务场景给对象初始化，一个真正的对象才算是构造完成。</p>
+<h2 id="总结"><a href="#总结" class="headerlink" title="总结"></a>总结</h2><p>一行代码，jvm就帮我们做了这么多事情。<br>还有很多的细节没有一一描述，后面每个步骤深挖的时候再完善。</p>
+]]></content>
+      <categories>
+        <category>java</category>
+      </categories>
+      <tags>
+        <tag>java</tag>
+        <tag>jvm</tag>
+      </tags>
+  </entry>
+  <entry>
     <title>jvm学习笔记4--堆区和方法区的对象回收判别</title>
     <url>/2020/06/03/jvm%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B04-%E5%AF%B9%E8%B1%A1%E5%92%8C%E6%96%B9%E6%B3%95%E5%8C%BA%E7%9A%84%E5%9B%9E%E6%94%B6%E5%88%A4%E5%88%AB/</url>
     <content><![CDATA[<h2 id="复习"><a href="#复习" class="headerlink" title="复习"></a>复习</h2><p>前面有提到jvm的内存模型，我们知道，程序计数器、虚拟机栈和本地方法栈是和线程<strong>同生共死</strong>的，每个栈帧的大小在类结构确定下来之后就都是已知的。因此这几个区域的内存分配和回收都是有确定性的。</p>
@@ -423,37 +456,6 @@ admin.site.register(MyUser, MyUserAdmin)</code></pre><p>```</p>
       <tags>
         <tag>java</tag>
         <tag>jvm</tag>
-      </tags>
-  </entry>
-  <entry>
-    <title>scrapy写爬虫注意事项</title>
-    <url>/2020/05/11/scrapy%E5%86%99%E7%88%AC%E8%99%AB%E6%B3%A8%E6%84%8F%E4%BA%8B%E9%A1%B9/</url>
-    <content><![CDATA[<h4 id="前段时间有个爬虫的需求，爬的什么网站的数据就不说了，简单介绍下在学习scrapy这中间踩的坑吧。"><a href="#前段时间有个爬虫的需求，爬的什么网站的数据就不说了，简单介绍下在学习scrapy这中间踩的坑吧。" class="headerlink" title="前段时间有个爬虫的需求，爬的什么网站的数据就不说了，简单介绍下在学习scrapy这中间踩的坑吧。"></a>前段时间有个爬虫的需求，爬的什么网站的数据就不说了，简单介绍下在学习scrapy这中间踩的坑吧。</h4><blockquote>
-<p>1、在爬取数据的时候，一定要想办法将爬虫伪装成一个浏览器，可以通过设置cookie和请求头的信息。这个具体的方法很多，随便百度一个关键词“scrapy设置请求头”，就可以出来一大堆答案。裸奔的话频率小点没啥事，但是访问频率比较高的话就会被302掉。甚至会被短时间内封掉ip，建议设置一个请求头比较保险。</p>
-</blockquote>
-<blockquote>
-<p>2、使用scrapy时，要学会使用meta来传参。</p>
-</blockquote>
-<blockquote>
-<p>3、要深入理解yield的用法。</p>
-</blockquote>
-<blockquote>
-<p>4、item的使用尽量将需要的字段给他，不要给无关紧要的字段。</p>
-</blockquote>
-<blockquote>
-<p>5、碰到异步请求的页面是，耐心找找异步请求的链接获取格式。一般来讲，请求<br>的链接都是固定的，只是某一个相关的参数不同。拼接请求就可以了。</p>
-</blockquote>
-<blockquote>
-<p>6、碰到js渲染的页面时，需要使用phantomjs来加载js渲染后页面，phantomjs更像一个隐藏的浏览器，能获取到最全面的页面信息，使用时需要自己写一个js加载文件。网上很多。最便捷的就是通过标准输出将页面返回给主逻辑。</p>
-</blockquote>
-]]></content>
-      <categories>
-        <category>python</category>
-        <category>爬虫</category>
-      </categories>
-      <tags>
-        <tag>python</tag>
-        <tag>scrapy</tag>
       </tags>
   </entry>
   <entry>
@@ -514,103 +516,49 @@ admin.site.register(MyUser, MyUserAdmin)</code></pre><p>```</p>
       </tags>
   </entry>
   <entry>
-    <title>从0学java第1篇--对java的粗浅理解</title>
-    <url>/2020/05/11/%E4%BB%8E0%E5%AD%A6java%E7%AC%AC1%E7%AF%87-%E5%AF%B9java%E7%9A%84%E7%B2%97%E6%B5%85%E7%90%86%E8%A7%A3-1/</url>
-    <content><![CDATA[<h3 id="对java的粗浅理解"><a href="#对java的粗浅理解" class="headerlink" title="对java的粗浅理解"></a>对java的粗浅理解</h3><p>对java有过简单了解的人都听说过java是”一次书写，到处运行”这一大特点，这个说的就是java的跨平台的特性。但是这种特性并不只是java才有的，java只是比较成熟一些而已。</p>
-<p>所谓的”一次书写，到处运行”指的是我们编写好的程序，通过javac编译后，变成<em>.class文件的字节码，</em>.class就是可以到处运行的文件，但是这种文件不可以直接在机器上执行，需要使用jvm这种跨平台的抽象环境，将字节码转化成目标机器代码，这样就可以实现导出运行了。</p>
-<h3 id="编译执行还是解释执行？"><a href="#编译执行还是解释执行？" class="headerlink" title="编译执行还是解释执行？"></a>编译执行还是解释执行？</h3><p>对java而言，在程序执行的时候，jvm将字节码解释成机器可以识别的机器码。但是在我们通常使用的jvm中，都提供了 JIT（Just-In-Time）编译器，JIT可以在运行的时候将热点代码编译成机器码，这种情况下热点代码就属于编译执行了。</p>
-<h3 id="常见的名词"><a href="#常见的名词" class="headerlink" title="常见的名词"></a>常见的名词</h3><p>在开发过程中我们经常会听到javac、jvm、jre、jdk这些名词，我们理一下他们都是什么。</p>
-<ul>
-<li><p>javac是一个编译器，用于将我们编写好的代码编译成以.class为后缀的字节码。</p>
-</li>
-<li><p>jvm就是java虚拟机，我们写好的代码并不直接在真实的目标机器上执行，而是通过javac编译后生成字节码，java虚拟机会把这些字节码解释成目标机器可以识别的机器码执行。</p>
-</li>
-<li><p>jre就是java运行的环境，在jvm解释字节码的时候，jvm需要调用一些解释所必须的类库，这些必要的类库都是在jre的lib中。所以可以简单的理解为jre包含jvm和所需的lib两部分。</p>
-</li>
-<li><p>jdk是java的一个开发工具包，我们在开发java程序之前，都会安装一个jdk，jdk主要包含javac、jre和一些类库。</p>
-</li>
+    <title>jvm学习笔记5--垃圾回收算法</title>
+    <url>/2020/06/04/jvm%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B05-%E5%9E%83%E5%9C%BE%E5%9B%9E%E6%94%B6%E7%AE%97%E6%B3%95/</url>
+    <content><![CDATA[<p>垃圾回收算法可分为2类：<br>    * 引用计数式垃圾收集（直接垃圾收集）<br>    * 追踪式垃圾收集（间接垃圾收集）</p>
+<p>java主流的虚拟机都是采用追踪式垃圾收集的方式，我们主要学习这个。</p>
+<h2 id="分代收集"><a href="#分代收集" class="headerlink" title="分代收集"></a>分代收集</h2><ul>
+<li>弱分代假说：绝大部分对象都是朝生夕灭的</li>
+<li>强分代假说：熬过越多次垃圾收集过程的对象就越难消亡</li>
+<li>跨代引用假说：相对于同代引用只占极少数</li>
 </ul>
-<p>以上的关系可以看出，jdk包含了jre，jre包含了jvm。jdk包含了编译必须使用的javac。</p>
-]]></content>
-      <categories>
-        <category>java</category>
-      </categories>
-      <tags>
-        <tag>java</tag>
-        <tag>jvm</tag>
-      </tags>
-  </entry>
-  <entry>
-    <title>hdfs Cannot obtain block length for LocatedBlock异常的解决</title>
-    <url>/2020/05/11/%E4%BB%8E0%E5%AD%A6java%E7%AC%AC1%E7%AF%87-%E5%AF%B9java%E7%9A%84%E7%B2%97%E6%B5%85%E7%90%86%E8%A7%A3/</url>
-    <content><![CDATA[<h4 id="问题的发现"><a href="#问题的发现" class="headerlink" title="问题的发现"></a>问题的发现</h4><p>在备份hdfs的数据到本地磁盘时，使用了get命令，结果报错了，具体的错误就是Cannot obtain block length for LocatedBlock这个异常。发现这个问题之后就开始解决问题。</p>
-<h4 id="问题出现的原因"><a href="#问题出现的原因" class="headerlink" title="问题出现的原因"></a>问题出现的原因</h4><p>写hdfs的上游是flume，所以就去查出错数据当天是否调整过flume服务。通过flume的日志发现当天有写hdfs时候，datanode没有响应的错误日志，正在写的日志文件就没有正常的关闭。</p>
-<p>这里就出现了hdfs的租约未被释放的问题，租约就是<code>在HDFS中，当每次客户端用户往某个文件中写入数据的时候，为了保持数据的一致性，此时其它客户端程序是不允许向此文件同时写入数据的</code>，租约的信息是存在namenode中的，也就是说当hdfs系统被关闭时，flume还在继续写该文件，同时也会报错，文件还是处于打开状态。</p>
-<p>所以我们要解决这个问题就需要释放租约。</p>
-<h4 id="恢复租约的方式"><a href="#恢复租约的方式" class="headerlink" title="恢复租约的方式"></a>恢复租约的方式</h4><p>首先先查看有哪些文件是租约没有释放的<br><code>hadoop fsck /hafs/path -openforwrite</code><br>然后执行<br><code>hdfs debug recoverLease -path</code><br>释放租约</p>
-<p>如果未被释放租约的文件太多的话，可以执行批量释放操作<br><code>hadoop fsck /hafs/path -openforwrite | egrep -v &#39;^\.+$&#39; | egrep &quot;MISSING|OPENFORWRITE&quot; | grep -o &quot;/[^ ]*&quot; | sed -e &quot;s/:$//&quot; | xargs -i hdfs debug recoverLease -path {}</code></p>
-<h4 id="总结"><a href="#总结" class="headerlink" title="总结"></a>总结</h4><p>该问题的出现主要是下游关闭时上游还在写，导致租约没有释放掉。在以后的升级或者重启hdfs时，需要提前先把flume或者其他上游写hdfs操作停止后，在执行hdfs系统的操作，才可以避免该问题的出现。</p>
-]]></content>
-      <categories>
-        <category>hadoop</category>
-      </categories>
-      <tags>
-        <tag>hadoop</tag>
-        <tag>hdfs</tag>
-        <tag>文件租约</tag>
-      </tags>
-  </entry>
-  <entry>
-    <title>jvm学习笔记2--对象的产生</title>
-    <url>/2020/05/15/java%E5%AF%B9%E8%B1%A1%E7%9A%84%E4%BA%A7%E7%94%9F/</url>
-    <content><![CDATA[<h2 id="提出问题"><a href="#提出问题" class="headerlink" title="提出问题"></a>提出问题</h2><p>在java的世界中，我们频繁的会使用对象。创建一个对象对我们而言，就是一行代码：</p>
-<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">User user &#x3D; new User(&quot;hello world&quot;);</span><br></pre></td></tr></table></figure>
-<p>在这行代码的背后，jvm都做了哪些工作呢？学习总结下。</p>
-<h2 id="对象创建过程"><a href="#对象创建过程" class="headerlink" title="对象创建过程"></a>对象创建过程</h2><p>当jvm在执行字节码指令的时候，遇到一条字节码new指令的时候，做以如图所示的以下工作：<br><img src="https://img-blog.csdnimg.cn/20200515002143342.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L2NzYTEyMQ==,size_16,color_FFFFFF,t_70" alt="在这里插入图片描述"></p>
-<h3 id="检查常量池"><a href="#检查常量池" class="headerlink" title="检查常量池"></a>检查常量池</h3><p>先去检查下这个指定的参数在常量池中是否可以定位到一个类的符号引用，并且要去检查这个符号引用所代表的类是否已经被加载、解析和初始化过。有的话，就直接引用；没有的话就要执行下一步。</p>
-<h3 id="执行类加载"><a href="#执行类加载" class="headerlink" title="执行类加载"></a>执行类加载</h3><p>类加载过程细节后面填坑，这块比较复杂。</p>
-<h3 id="给对象分配内存"><a href="#给对象分配内存" class="headerlink" title="给对象分配内存"></a>给对象分配内存</h3><p>类加载检查之后，虚拟机要给新生成的对象分配内存。<strong>对象所需内存大小在类加载完成后就完全确定了</strong>  如何确定的后面再填坑。</p>
-<p>给对象分配内存，就是在java堆中把一块确定大小的内存区域划分出来。分配的方式有2种：</p>
+<p>第3条是根据前2条假说逻辑得出的隐含推论：存在相互引用的2个对象，是应该同时生存或者消亡的。举个例子，如果某个新生代对象存在跨代引用，由于老年代难以消亡，该引用会使得新生代对象在回收时同样存活，进而年龄增长，晋升到老年代中，这时候跨代引用就自然消除了。</p>
+<p>依据这条假说，我们就不应再为了少量的跨代引用区扫描整个老年代，也不必浪费空间专门记录每一个对象是否存在及存在哪些跨代引用，<strong>只需要在新生代建立一个全局的数据结构（remembered set），这个结构把老年代划分成若干块，标识出老年代的哪一块会存在跨代引用。此后当发生MInor GC的时候，只有包含跨代引用的小跨内存中的对象才会被加入到GC Roots进行扫描。</strong></p>
+<h2 id="标记-清除算法"><a href="#标记-清除算法" class="headerlink" title="标记-清除算法"></a>标记-清除算法</h2><p>是最基础的垃圾收集算法。首先标记需要回收的对象（也可以反过来标记存活的对象），标记完成后，统一回收所有标记（或者未被标记）的对象。</p>
+<p><strong>标记的过程就是对象的生死判定过程</strong></p>
+<p>回收前后的状态如图所示：</p>
+<img src="https://img-blog.csdnimg.cn/20200603234449440.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L2NzYTEyMQ==,size_16,color_FFFFFF,t_70#pic_center" alt="图片替换文本" width="500" height="300" align="bottom" />
+
+<p>主要缺点：</p>
 <ul>
-<li><strong>指针碰撞</strong>：假设java堆中的内存都是绝对规整的，所有使用过的或者被分配的在一遍，空闲内存放在另一边，中间放一个指针作为分界点。那本次的内存分配就是把指针从当前位置向空闲的方向移动一段与对象大小相等的距离，这种方式叫做指针碰撞</li>
-<li><strong>空闲列表</strong>：如果java堆不是规整的，已被使用的内存和未被分配的空闲内存相互交错放在一起，那就没有办法使用指针碰撞的方式了，就需要维护一个列表，记录哪些内存区域是可用的。在分配的时候从可用的区域中找到一块足够大的划分给当前对象实例，并更新列表记录，这种方式叫做空闲列表</li>
+<li>执行效率不稳定。如果堆中包含大量的对象，其中有大部分是需要被回收的，就需要大量的标记和清除动作，导致标记和清除动作的执行效率随着对象的增多而降低；</li>
+<li>内存空间的碎片化。标记和清除之后会产生大量的不连续的内存碎片，内存碎片太多可能会导致以后在程序运行过程中需要分配较大对象时无法找到足够的连续内存而不得不提前触发一次垃圾收集动作</li>
 </ul>
-<p>在划分可用空间给对象的时候，需要考虑一个问题：创建对象、给对象分配内存在虚拟机中是非常高频的行为，仅仅修改指针的位置，在并发情况下也不是线程安全的操作，可能出现在给A对象分配的内存，指针还没有修改，B对象也在基于原来的指针分配内存的情况。解决这种问题就有2种方案：</p>
+<h2 id="标记-复制算法"><a href="#标记-复制算法" class="headerlink" title="标记-复制算法"></a>标记-复制算法</h2><p>为了解决标记-清除算法面对大量可回收对象时执行效率底下的问题，提出的一种“半区复制”的垃圾收集算法。</p>
+<p>它将可用的内存容量分为大小相等的2块，每次只使用1块。当这块用完了，将还活着的对象复制到另一块内存上，然后把已使用的内存块一次清理掉。</p>
+<p>如果内存中多数对象都是存活的，这种算法就会产生大量的对象间复制的开销，但是对于多数对象是可回收的场景，算法需要复制的就是少量存活的对象，而且每次都是针对整个半区内存进行回收，分配内存时也不用考虑内存碎片的复杂情况，只要移动堆顶指针，按顺序分配即可。</p>
+<p>回收前后状态如图：</p>
+<img src="https://img-blog.csdnimg.cn/2020060323574344.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L2NzYTEyMQ==,size_16,color_FFFFFF,t_70#pic_center" alt="图片替换文本" width="500" height="300" align="bottom" />
+
+<p>优点：实现简单，运行高效<br>缺点：可用的内存缩小为原来的一半，空间浪费过多</p>
+<p>现代商用的虚拟机大多优先采用这种算法去回收新生代，IBM曾经有一项专门的量化研究：<strong>新生代的有98%的对象都熬不过第一轮的收集</strong>，因此并不用按照1:1的比例划分新生代的内存空间。</p>
+<p>HotSpot虚拟机的Serial、ParNew等新生代收集器均采用了一种更优化的半区分代复制策略——“Appel式回收”。具体做法：把新生代划分较大的一块Eden空间和两块较小的Survivor空间，每次分配内存只使用Eden和一块Survivor。发生垃圾收集时，将Eden和Survivor上仍然存活的对象一次性的复制到另外一块Survivor空间上，然后直接清理到Eden和已用过的那块Survivor空间。</p>
+<p>HotSpot默认Eden和Survivor的大小比例是8:1，即每次新生代的可用空间占用整个新生代空间的90%</p>
+<h2 id="标记-整理算法"><a href="#标记-整理算法" class="headerlink" title="标记-整理算法"></a>标记-整理算法</h2><p>标记-复制算法在对象存活率较高的时候，有大量的对象复制操作，效率将会降低。更为极端的是，如果不想浪费50%的空间，就需要有额外的空间进行分配担保，以应对被使用的内存中存在100%对象存活的极端情况，所以老年代不能直接选用标记-复制算法。</p>
+<p>针对老年代对象的特点，提出了一种有针对性的“标记-整理”算法。<br>其中标记的过程都一样，但是后续动作是让所有存活的对象向内存空间的一端移动，然后直接清理掉边界以外的内存。如图所示：</p>
+<img src="https://img-blog.csdnimg.cn/20200604001732842.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L2NzYTEyMQ==,size_16,color_FFFFFF,t_70#pic_center" alt="图片替换文本" width="500" height="300" align="bottom" />
+
+<p>标记-清除算法和标记-整理算法的本质差异在于前者是一种非移动式的回收算法，后者是移动式的。是否移动存活对象是一种优缺点共存的风险决策：</p>
 <ul>
-<li>采用CAS+失败重试来保证更新操作的原子性</li>
-<li>将内存分配的动作按照线程划分到不同的空间中进行，即每个线程提前先分配到一小块内存，称为<strong>本地线程分配缓冲</strong>（TLAB），哪个线程要分配内存，就在自己的分配缓冲中进行，本地缓冲用完了再采用方案1同步锁定分配</li>
+<li>如果移动存活对象，尤其是在老年代这种每次都有大量对象存活的区域，移动存活并更新所有对象的引用是一种极为负重的操作。这种操作需要暂停整个用户应用程序才能进行，被称为“Stop The World”</li>
+<li>但是如果和标记-清除一样不考虑移动和整理存活对象的话，碎片化的空间只能依赖于更复杂的内存分配器和内存访问器来解决。然而内存访问是用户程序最频繁的操作，如果在这一环节增加负担，会影响整个应用程序的吞吐量。</li>
 </ul>
-<h3 id="初始化分配的内存空间"><a href="#初始化分配的内存空间" class="headerlink" title="初始化分配的内存空间"></a>初始化分配的内存空间</h3><p>jvm将分配到的内存空间都初始化成零值，如果采用了TLAB的方案，这一步可以提前至TLAB分配时进行。这步操作<strong>保证对象的实例字段在java代码中可以不赋初始值就能直接使用</strong>。</p>
-<h3 id="设置对象"><a href="#设置对象" class="headerlink" title="设置对象"></a>设置对象</h3><p>jvm需要对对象进行必要的设置，比如对象是哪个类的实例、如何找到类的元信息、对象的哈希码、对象的GC分代年龄等。这些信息都存放在对象的对象头中。具体的设置后面详细介绍</p>
-<h3 id="对象构造"><a href="#对象构造" class="headerlink" title="对象构造"></a>对象构造</h3><p>上面的所有流程完成之后，一个新的对象就产生了。接下来，就要开始对这个新的对象<strong>进行构造</strong>了。只有按照业务场景给对象初始化，一个真正的对象才算是构造完成。</p>
-<h2 id="总结"><a href="#总结" class="headerlink" title="总结"></a>总结</h2><p>一行代码，jvm就帮我们做了这么多事情。<br>还有很多的细节没有一一描述，后面每个步骤深挖的时候再完善。</p>
-]]></content>
-      <categories>
-        <category>java</category>
-      </categories>
-      <tags>
-        <tag>java</tag>
-        <tag>jvm</tag>
-      </tags>
-  </entry>
-  <entry>
-    <title>jvm学习笔记3--对象的内存布局</title>
-    <url>/2020/05/20/%E5%AF%B9%E8%B1%A1%E7%9A%84%E5%86%85%E5%AD%98%E5%B8%83%E5%B1%80/</url>
-    <content><![CDATA[<p>今天是520，不管有没有对象，都要学习呀</p>
-<p>在我们经常使用的HotSpot虚拟机中，对象在堆内存中的布局可以分为3个部分：</p>
-<ul>
-<li>对象头</li>
-<li>实例数据</li>
-<li>对齐填充</li>
-</ul>
-<h2 id="对象头"><a href="#对象头" class="headerlink" title="对象头"></a>对象头</h2><p>对象的对象头包含2类信息：</p>
-<h5 id="用于存储对象自身的运行时数据"><a href="#用于存储对象自身的运行时数据" class="headerlink" title="用于存储对象自身的运行时数据"></a>用于存储对象自身的运行时数据</h5><p>如哈希码、GC分代年龄、锁状态标志、线程持有的锁、偏向线程的id、偏向时间戳等。这些数据的长度在32位和64位虚拟机中，分别占用32bit和64bit，官方称之为”<strong>Mark Word</strong>“</p>
-<p>mark word如图所示：<br><img src="https://img-blog.csdnimg.cn/20200520233412749.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L2NzYTEyMQ==,size_16,color_FFFFFF,t_70" alt="图片替换文本" width="400" height="100" align="bottom" /></p>
-<h5 id="类型指针"><a href="#类型指针" class="headerlink" title="类型指针"></a>类型指针</h5><p>即对象指向它的类型元数据的指针，jvm通过这个指针确认该对象是哪个类的实例</p>
-<h2 id="实例数据"><a href="#实例数据" class="headerlink" title="实例数据"></a>实例数据</h2><p>对象真正存储的有效信息，即我们在程序代码中定义的各种字段内容，无论是从父类集成来的，还是子类自有的都必须记录下来。</p>
-<p>存储的顺序受<strong>jvm的分配策略参数</strong>和<strong>字段在java源码中的定义顺序</strong>的影响<br>HotSpot默认的分配顺序是longs/doubles、ints、shorts/chars、bytes/booleans、opps，可以看到相同宽度的字段会被分配到一起存放，在满足这个条件的前提下，<strong>父类的字段放在子类的前面</strong></p>
-<h2 id="对齐填充"><a href="#对齐填充" class="headerlink" title="对齐填充"></a>对齐填充</h2><p>这部分不是必然的，也没有特殊的含义，仅仅是占位的作用。<br>由于HotSpot jvm的内存管理系统要求对象的起始位置必须是8字节的倍数，也就是说<strong>任何对象的大小都必须是8字节的倍数</strong>。</p>
-<p>从上面可以看到，对象的头部已经是8字节的倍数了，所以如果对象实例没有对齐的，就要通过对齐填充了。</p>
+<p>基于以上2点来看，是否移动对象都存在弊端，移动则内存回收时更复杂，不移动则内存分配时更复杂。HotSpot虚拟机里面关注吞吐量的Parallel Scavenge收集器是基于标记-整理算法的，而关注延迟的CMS收集器则是基于标记-清除算法的，这也从侧面印证这点。</p>
+<h2 id="“和稀泥”方案"><a href="#“和稀泥”方案" class="headerlink" title="“和稀泥”方案"></a>“和稀泥”方案</h2><p>最后提一种“和稀泥”的解决方案：不在内存分配和访问上增加太大的负担，具体做法是虚拟机平时大多数时候采用标记-清除算法，暂时容忍内存碎片的存在，直到内存空间的碎片化程度已经影响到对象分配时，再采用标记-整理算法收集一次，获得规整的内存空间。</p>
+<p>基于标记-清除算法的CMS收集器面临空间碎片过多时采用的就是这种处理办法。</p>
 ]]></content>
       <categories>
         <category>java</category>
@@ -670,61 +618,101 @@ admin.site.register(MyUser, MyUserAdmin)</code></pre><p>```</p>
       </tags>
   </entry>
   <entry>
-    <title>随想1</title>
-    <url>/2021/12/15/%E9%9A%8F%E6%83%B31/</url>
-    <content><![CDATA[<p>关于底层逻辑<br>事实和观点</p>
+    <title>scrapy写爬虫注意事项</title>
+    <url>/2020/05/11/scrapy%E5%86%99%E7%88%AC%E8%99%AB%E6%B3%A8%E6%84%8F%E4%BA%8B%E9%A1%B9/</url>
+    <content><![CDATA[<h4 id="前段时间有个爬虫的需求，爬的什么网站的数据就不说了，简单介绍下在学习scrapy这中间踩的坑吧。"><a href="#前段时间有个爬虫的需求，爬的什么网站的数据就不说了，简单介绍下在学习scrapy这中间踩的坑吧。" class="headerlink" title="前段时间有个爬虫的需求，爬的什么网站的数据就不说了，简单介绍下在学习scrapy这中间踩的坑吧。"></a>前段时间有个爬虫的需求，爬的什么网站的数据就不说了，简单介绍下在学习scrapy这中间踩的坑吧。</h4><blockquote>
+<p>1、在爬取数据的时候，一定要想办法将爬虫伪装成一个浏览器，可以通过设置cookie和请求头的信息。这个具体的方法很多，随便百度一个关键词“scrapy设置请求头”，就可以出来一大堆答案。裸奔的话频率小点没啥事，但是访问频率比较高的话就会被302掉。甚至会被短时间内封掉ip，建议设置一个请求头比较保险。</p>
+</blockquote>
+<blockquote>
+<p>2、使用scrapy时，要学会使用meta来传参。</p>
+</blockquote>
+<blockquote>
+<p>3、要深入理解yield的用法。</p>
+</blockquote>
+<blockquote>
+<p>4、item的使用尽量将需要的字段给他，不要给无关紧要的字段。</p>
+</blockquote>
+<blockquote>
+<p>5、碰到异步请求的页面是，耐心找找异步请求的链接获取格式。一般来讲，请求<br>的链接都是固定的，只是某一个相关的参数不同。拼接请求就可以了。</p>
+</blockquote>
+<blockquote>
+<p>6、碰到js渲染的页面时，需要使用phantomjs来加载js渲染后页面，phantomjs更像一个隐藏的浏览器，能获取到最全面的页面信息，使用时需要自己写一个js加载文件。网上很多。最便捷的就是通过标准输出将页面返回给主逻辑。</p>
+</blockquote>
 ]]></content>
       <categories>
-        <category>个人随想</category>
+        <category>python</category>
+        <category>爬虫</category>
       </categories>
       <tags>
-        <tag>个人随想</tag>
+        <tag>python</tag>
+        <tag>scrapy</tag>
       </tags>
   </entry>
   <entry>
-    <title>jvm学习笔记5--垃圾回收算法</title>
-    <url>/2020/06/04/jvm%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B05-%E5%9E%83%E5%9C%BE%E5%9B%9E%E6%94%B6%E7%AE%97%E6%B3%95/</url>
-    <content><![CDATA[<p>垃圾回收算法可分为2类：<br>    * 引用计数式垃圾收集（直接垃圾收集）<br>    * 追踪式垃圾收集（间接垃圾收集）</p>
-<p>java主流的虚拟机都是采用追踪式垃圾收集的方式，我们主要学习这个。</p>
-<h2 id="分代收集"><a href="#分代收集" class="headerlink" title="分代收集"></a>分代收集</h2><ul>
-<li>弱分代假说：绝大部分对象都是朝生夕灭的</li>
-<li>强分代假说：熬过越多次垃圾收集过程的对象就越难消亡</li>
-<li>跨代引用假说：相对于同代引用只占极少数</li>
-</ul>
-<p>第3条是根据前2条假说逻辑得出的隐含推论：存在相互引用的2个对象，是应该同时生存或者消亡的。举个例子，如果某个新生代对象存在跨代引用，由于老年代难以消亡，该引用会使得新生代对象在回收时同样存活，进而年龄增长，晋升到老年代中，这时候跨代引用就自然消除了。</p>
-<p>依据这条假说，我们就不应再为了少量的跨代引用区扫描整个老年代，也不必浪费空间专门记录每一个对象是否存在及存在哪些跨代引用，<strong>只需要在新生代建立一个全局的数据结构（remembered set），这个结构把老年代划分成若干块，标识出老年代的哪一块会存在跨代引用。此后当发生MInor GC的时候，只有包含跨代引用的小跨内存中的对象才会被加入到GC Roots进行扫描。</strong></p>
-<h2 id="标记-清除算法"><a href="#标记-清除算法" class="headerlink" title="标记-清除算法"></a>标记-清除算法</h2><p>是最基础的垃圾收集算法。首先标记需要回收的对象（也可以反过来标记存活的对象），标记完成后，统一回收所有标记（或者未被标记）的对象。</p>
-<p><strong>标记的过程就是对象的生死判定过程</strong></p>
-<p>回收前后的状态如图所示：</p>
-<img src="https://img-blog.csdnimg.cn/20200603234449440.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L2NzYTEyMQ==,size_16,color_FFFFFF,t_70#pic_center" alt="图片替换文本" width="500" height="300" align="bottom" />
-
-<p>主要缺点：</p>
+    <title>hdfs Cannot obtain block length for LocatedBlock异常的解决</title>
+    <url>/2020/05/11/%E4%BB%8E0%E5%AD%A6java%E7%AC%AC1%E7%AF%87-%E5%AF%B9java%E7%9A%84%E7%B2%97%E6%B5%85%E7%90%86%E8%A7%A3/</url>
+    <content><![CDATA[<h4 id="问题的发现"><a href="#问题的发现" class="headerlink" title="问题的发现"></a>问题的发现</h4><p>在备份hdfs的数据到本地磁盘时，使用了get命令，结果报错了，具体的错误就是Cannot obtain block length for LocatedBlock这个异常。发现这个问题之后就开始解决问题。</p>
+<h4 id="问题出现的原因"><a href="#问题出现的原因" class="headerlink" title="问题出现的原因"></a>问题出现的原因</h4><p>写hdfs的上游是flume，所以就去查出错数据当天是否调整过flume服务。通过flume的日志发现当天有写hdfs时候，datanode没有响应的错误日志，正在写的日志文件就没有正常的关闭。</p>
+<p>这里就出现了hdfs的租约未被释放的问题，租约就是<code>在HDFS中，当每次客户端用户往某个文件中写入数据的时候，为了保持数据的一致性，此时其它客户端程序是不允许向此文件同时写入数据的</code>，租约的信息是存在namenode中的，也就是说当hdfs系统被关闭时，flume还在继续写该文件，同时也会报错，文件还是处于打开状态。</p>
+<p>所以我们要解决这个问题就需要释放租约。</p>
+<h4 id="恢复租约的方式"><a href="#恢复租约的方式" class="headerlink" title="恢复租约的方式"></a>恢复租约的方式</h4><p>首先先查看有哪些文件是租约没有释放的<br><code>hadoop fsck /hafs/path -openforwrite</code><br>然后执行<br><code>hdfs debug recoverLease -path</code><br>释放租约</p>
+<p>如果未被释放租约的文件太多的话，可以执行批量释放操作<br><code>hadoop fsck /hafs/path -openforwrite | egrep -v &#39;^\.+$&#39; | egrep &quot;MISSING|OPENFORWRITE&quot; | grep -o &quot;/[^ ]*&quot; | sed -e &quot;s/:$//&quot; | xargs -i hdfs debug recoverLease -path {}</code></p>
+<h4 id="总结"><a href="#总结" class="headerlink" title="总结"></a>总结</h4><p>该问题的出现主要是下游关闭时上游还在写，导致租约没有释放掉。在以后的升级或者重启hdfs时，需要提前先把flume或者其他上游写hdfs操作停止后，在执行hdfs系统的操作，才可以避免该问题的出现。</p>
+]]></content>
+      <categories>
+        <category>hadoop</category>
+      </categories>
+      <tags>
+        <tag>hadoop</tag>
+        <tag>hdfs</tag>
+        <tag>文件租约</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>从0学java第1篇--对java的粗浅理解</title>
+    <url>/2020/05/11/%E4%BB%8E0%E5%AD%A6java%E7%AC%AC1%E7%AF%87-%E5%AF%B9java%E7%9A%84%E7%B2%97%E6%B5%85%E7%90%86%E8%A7%A3-1/</url>
+    <content><![CDATA[<h3 id="对java的粗浅理解"><a href="#对java的粗浅理解" class="headerlink" title="对java的粗浅理解"></a>对java的粗浅理解</h3><p>对java有过简单了解的人都听说过java是”一次书写，到处运行”这一大特点，这个说的就是java的跨平台的特性。但是这种特性并不只是java才有的，java只是比较成熟一些而已。</p>
+<p>所谓的”一次书写，到处运行”指的是我们编写好的程序，通过javac编译后，变成<em>.class文件的字节码，</em>.class就是可以到处运行的文件，但是这种文件不可以直接在机器上执行，需要使用jvm这种跨平台的抽象环境，将字节码转化成目标机器代码，这样就可以实现导出运行了。</p>
+<h3 id="编译执行还是解释执行？"><a href="#编译执行还是解释执行？" class="headerlink" title="编译执行还是解释执行？"></a>编译执行还是解释执行？</h3><p>对java而言，在程序执行的时候，jvm将字节码解释成机器可以识别的机器码。但是在我们通常使用的jvm中，都提供了 JIT（Just-In-Time）编译器，JIT可以在运行的时候将热点代码编译成机器码，这种情况下热点代码就属于编译执行了。</p>
+<h3 id="常见的名词"><a href="#常见的名词" class="headerlink" title="常见的名词"></a>常见的名词</h3><p>在开发过程中我们经常会听到javac、jvm、jre、jdk这些名词，我们理一下他们都是什么。</p>
 <ul>
-<li>执行效率不稳定。如果堆中包含大量的对象，其中有大部分是需要被回收的，就需要大量的标记和清除动作，导致标记和清除动作的执行效率随着对象的增多而降低；</li>
-<li>内存空间的碎片化。标记和清除之后会产生大量的不连续的内存碎片，内存碎片太多可能会导致以后在程序运行过程中需要分配较大对象时无法找到足够的连续内存而不得不提前触发一次垃圾收集动作</li>
+<li><p>javac是一个编译器，用于将我们编写好的代码编译成以.class为后缀的字节码。</p>
+</li>
+<li><p>jvm就是java虚拟机，我们写好的代码并不直接在真实的目标机器上执行，而是通过javac编译后生成字节码，java虚拟机会把这些字节码解释成目标机器可以识别的机器码执行。</p>
+</li>
+<li><p>jre就是java运行的环境，在jvm解释字节码的时候，jvm需要调用一些解释所必须的类库，这些必要的类库都是在jre的lib中。所以可以简单的理解为jre包含jvm和所需的lib两部分。</p>
+</li>
+<li><p>jdk是java的一个开发工具包，我们在开发java程序之前，都会安装一个jdk，jdk主要包含javac、jre和一些类库。</p>
+</li>
 </ul>
-<h2 id="标记-复制算法"><a href="#标记-复制算法" class="headerlink" title="标记-复制算法"></a>标记-复制算法</h2><p>为了解决标记-清除算法面对大量可回收对象时执行效率底下的问题，提出的一种“半区复制”的垃圾收集算法。</p>
-<p>它将可用的内存容量分为大小相等的2块，每次只使用1块。当这块用完了，将还活着的对象复制到另一块内存上，然后把已使用的内存块一次清理掉。</p>
-<p>如果内存中多数对象都是存活的，这种算法就会产生大量的对象间复制的开销，但是对于多数对象是可回收的场景，算法需要复制的就是少量存活的对象，而且每次都是针对整个半区内存进行回收，分配内存时也不用考虑内存碎片的复杂情况，只要移动堆顶指针，按顺序分配即可。</p>
-<p>回收前后状态如图：</p>
-<img src="https://img-blog.csdnimg.cn/2020060323574344.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L2NzYTEyMQ==,size_16,color_FFFFFF,t_70#pic_center" alt="图片替换文本" width="500" height="300" align="bottom" />
-
-<p>优点：实现简单，运行高效<br>缺点：可用的内存缩小为原来的一半，空间浪费过多</p>
-<p>现代商用的虚拟机大多优先采用这种算法去回收新生代，IBM曾经有一项专门的量化研究：<strong>新生代的有98%的对象都熬不过第一轮的收集</strong>，因此并不用按照1:1的比例划分新生代的内存空间。</p>
-<p>HotSpot虚拟机的Serial、ParNew等新生代收集器均采用了一种更优化的半区分代复制策略——“Appel式回收”。具体做法：把新生代划分较大的一块Eden空间和两块较小的Survivor空间，每次分配内存只使用Eden和一块Survivor。发生垃圾收集时，将Eden和Survivor上仍然存活的对象一次性的复制到另外一块Survivor空间上，然后直接清理到Eden和已用过的那块Survivor空间。</p>
-<p>HotSpot默认Eden和Survivor的大小比例是8:1，即每次新生代的可用空间占用整个新生代空间的90%</p>
-<h2 id="标记-整理算法"><a href="#标记-整理算法" class="headerlink" title="标记-整理算法"></a>标记-整理算法</h2><p>标记-复制算法在对象存活率较高的时候，有大量的对象复制操作，效率将会降低。更为极端的是，如果不想浪费50%的空间，就需要有额外的空间进行分配担保，以应对被使用的内存中存在100%对象存活的极端情况，所以老年代不能直接选用标记-复制算法。</p>
-<p>针对老年代对象的特点，提出了一种有针对性的“标记-整理”算法。<br>其中标记的过程都一样，但是后续动作是让所有存活的对象向内存空间的一端移动，然后直接清理掉边界以外的内存。如图所示：</p>
-<img src="https://img-blog.csdnimg.cn/20200604001732842.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L2NzYTEyMQ==,size_16,color_FFFFFF,t_70#pic_center" alt="图片替换文本" width="500" height="300" align="bottom" />
-
-<p>标记-清除算法和标记-整理算法的本质差异在于前者是一种非移动式的回收算法，后者是移动式的。是否移动存活对象是一种优缺点共存的风险决策：</p>
+<p>以上的关系可以看出，jdk包含了jre，jre包含了jvm。jdk包含了编译必须使用的javac。</p>
+]]></content>
+      <categories>
+        <category>java</category>
+      </categories>
+      <tags>
+        <tag>java</tag>
+        <tag>jvm</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>jvm学习笔记3--对象的内存布局</title>
+    <url>/2020/05/20/%E5%AF%B9%E8%B1%A1%E7%9A%84%E5%86%85%E5%AD%98%E5%B8%83%E5%B1%80/</url>
+    <content><![CDATA[<p>今天是520，不管有没有对象，都要学习呀</p>
+<p>在我们经常使用的HotSpot虚拟机中，对象在堆内存中的布局可以分为3个部分：</p>
 <ul>
-<li>如果移动存活对象，尤其是在老年代这种每次都有大量对象存活的区域，移动存活并更新所有对象的引用是一种极为负重的操作。这种操作需要暂停整个用户应用程序才能进行，被称为“Stop The World”</li>
-<li>但是如果和标记-清除一样不考虑移动和整理存活对象的话，碎片化的空间只能依赖于更复杂的内存分配器和内存访问器来解决。然而内存访问是用户程序最频繁的操作，如果在这一环节增加负担，会影响整个应用程序的吞吐量。</li>
+<li>对象头</li>
+<li>实例数据</li>
+<li>对齐填充</li>
 </ul>
-<p>基于以上2点来看，是否移动对象都存在弊端，移动则内存回收时更复杂，不移动则内存分配时更复杂。HotSpot虚拟机里面关注吞吐量的Parallel Scavenge收集器是基于标记-整理算法的，而关注延迟的CMS收集器则是基于标记-清除算法的，这也从侧面印证这点。</p>
-<h2 id="“和稀泥”方案"><a href="#“和稀泥”方案" class="headerlink" title="“和稀泥”方案"></a>“和稀泥”方案</h2><p>最后提一种“和稀泥”的解决方案：不在内存分配和访问上增加太大的负担，具体做法是虚拟机平时大多数时候采用标记-清除算法，暂时容忍内存碎片的存在，直到内存空间的碎片化程度已经影响到对象分配时，再采用标记-整理算法收集一次，获得规整的内存空间。</p>
-<p>基于标记-清除算法的CMS收集器面临空间碎片过多时采用的就是这种处理办法。</p>
+<h2 id="对象头"><a href="#对象头" class="headerlink" title="对象头"></a>对象头</h2><p>对象的对象头包含2类信息：</p>
+<h5 id="用于存储对象自身的运行时数据"><a href="#用于存储对象自身的运行时数据" class="headerlink" title="用于存储对象自身的运行时数据"></a>用于存储对象自身的运行时数据</h5><p>如哈希码、GC分代年龄、锁状态标志、线程持有的锁、偏向线程的id、偏向时间戳等。这些数据的长度在32位和64位虚拟机中，分别占用32bit和64bit，官方称之为”<strong>Mark Word</strong>“</p>
+<p>mark word如图所示：<br><img src="https://img-blog.csdnimg.cn/20200520233412749.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L2NzYTEyMQ==,size_16,color_FFFFFF,t_70" alt="图片替换文本" width="400" height="100" align="bottom" /></p>
+<h5 id="类型指针"><a href="#类型指针" class="headerlink" title="类型指针"></a>类型指针</h5><p>即对象指向它的类型元数据的指针，jvm通过这个指针确认该对象是哪个类的实例</p>
+<h2 id="实例数据"><a href="#实例数据" class="headerlink" title="实例数据"></a>实例数据</h2><p>对象真正存储的有效信息，即我们在程序代码中定义的各种字段内容，无论是从父类集成来的，还是子类自有的都必须记录下来。</p>
+<p>存储的顺序受<strong>jvm的分配策略参数</strong>和<strong>字段在java源码中的定义顺序</strong>的影响<br>HotSpot默认的分配顺序是longs/doubles、ints、shorts/chars、bytes/booleans、opps，可以看到相同宽度的字段会被分配到一起存放，在满足这个条件的前提下，<strong>父类的字段放在子类的前面</strong></p>
+<h2 id="对齐填充"><a href="#对齐填充" class="headerlink" title="对齐填充"></a>对齐填充</h2><p>这部分不是必然的，也没有特殊的含义，仅仅是占位的作用。<br>由于HotSpot jvm的内存管理系统要求对象的起始位置必须是8字节的倍数，也就是说<strong>任何对象的大小都必须是8字节的倍数</strong>。</p>
+<p>从上面可以看到，对象的头部已经是8字节的倍数了，所以如果对象实例没有对齐的，就要通过对齐填充了。</p>
 ]]></content>
       <categories>
         <category>java</category>

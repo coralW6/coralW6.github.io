@@ -74,7 +74,7 @@
 
 
 
-  <link rel="alternate" href="/atom.xml" title="凡尘随手记" type="application/atom+xml" />
+  <link rel="alternate" href="/atom.xml" title="安静的废纸篓" type="application/atom+xml" />
 
 
 
@@ -85,7 +85,7 @@
 <meta property="og:type" content="article">
 <meta property="og:title" content="jvm学习笔记4--堆区和方法区的对象回收判别">
 <meta property="og:url" content="http://yoursite.com/2020/06/03/jvm%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B04-%E5%AF%B9%E8%B1%A1%E5%92%8C%E6%96%B9%E6%B3%95%E5%8C%BA%E7%9A%84%E5%9B%9E%E6%94%B6%E5%88%A4%E5%88%AB/index.html">
-<meta property="og:site_name" content="凡尘随手记">
+<meta property="og:site_name" content="安静的废纸篓">
 <meta property="og:description" content="复习前面有提到jvm的内存模型，我们知道，程序计数器、虚拟机栈和本地方法栈是和线程同生共死的，每个栈帧的大小在类结构确定下来之后就都是已知的。因此这几个区域的内存分配和回收都是有确定性的。 然而，java堆和方法区却有着显著的不确定性。只有程序在运行期间，我们才知道具体要创建哪些对象，创建多少对象，分配多少内存。这部分的内存分配和回收都是动态的。所以垃圾回收器所关心的就是这部分内存的管理。 复习完">
 <meta property="og:image" content="https://img-blog.csdnimg.cn/20200603000129927.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L2NzYTEyMQ==">
 <meta property="article:published_time" content="2020-06-02T17:02:00.000Z">
@@ -130,7 +130,7 @@
 
 
 
-  <title>jvm学习笔记4--堆区和方法区的对象回收判别 | 凡尘随手记</title>
+  <title>jvm学习笔记4--堆区和方法区的对象回收判别 | 安静的废纸篓</title>
   
 
 
@@ -160,7 +160,7 @@
     <div class="custom-logo-site-title">
       <a href="/"  class="brand" rel="start">
         <span class="logo-line-before"><i></i></span>
-        <span class="site-title">凡尘随手记</span>
+        <span class="site-title">安静的废纸篓</span>
         <span class="logo-line-after"><i></i></span>
       </a>
     </div>
@@ -195,16 +195,6 @@
         </li>
       
         
-        <li class="menu-item menu-item-about">
-          <a href="/about/" rel="section">
-            
-              <i class="menu-item-icon fa fa-fw fa-user"></i> <br />
-            
-            关于
-          </a>
-        </li>
-      
-        
         <li class="menu-item menu-item-tags">
           <a href="/tags/" rel="section">
             
@@ -231,6 +221,16 @@
               <i class="menu-item-icon fa fa-fw fa-question-circle"></i> <br />
             
             归档
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-about">
+          <a href="/about/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-user"></i> <br />
+            
+            关于
           </a>
         </li>
       
@@ -310,7 +310,7 @@
     </span>
 
     <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="凡尘随手记">
+      <meta itemprop="name" content="安静的废纸篓">
     </span>
 
     
@@ -574,7 +574,7 @@
               
                 <a href="/archives/">
               
-                  <span class="site-state-item-count">15</span>
+                  <span class="site-state-item-count">14</span>
                   <span class="site-state-item-name">日志</span>
                 </a>
               </div>
@@ -584,10 +584,10 @@
               
               
               <div class="site-state-item site-state-categories">
-                
-                  <span class="site-state-item-count">8</span>
+                <a href="/categories/index.html">
+                  <span class="site-state-item-count">7</span>
                   <span class="site-state-item-name">分类</span>
-                
+                </a>
               </div>
             
 
@@ -595,10 +595,10 @@
               
               
               <div class="site-state-item site-state-tags">
-                
-                  <span class="site-state-item-count">15</span>
+                <a href="/tags/index.html">
+                  <span class="site-state-item-count">14</span>
                   <span class="site-state-item-name">标签</span>
-                
+                </a>
               </div>
             
 
@@ -721,7 +721,7 @@ show_date_time();
   <span class="with-love">
     <i class="fa fa-"></i>
   </span>
-  <span class="author" itemprop="copyrightHolder">Copyright © 2020-2020 入坑随手记 coral66.com All Rights Reserved. | 京ICP备18001768号-1</span>
+  <span class="author" itemprop="copyrightHolder">Copyright © 2020-2021 安静的废纸篓 coral66.com All Rights Reserved. | 京ICP备18001768号-1</span>
 
   
 </div>
